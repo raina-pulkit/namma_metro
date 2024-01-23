@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/home.dart';
@@ -6,7 +8,7 @@ class LoadingPage extends StatefulWidget{
   const LoadingPage({super.key});
 
   @override
-  _LoadingPageState createState() => _LoadingPageState();
+  State<LoadingPage> createState() => _LoadingPageState();
 }
 
 class _LoadingPageState extends State<LoadingPage>{
