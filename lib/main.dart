@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:namma_metro/bottom_nav_bar.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -19,18 +18,24 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
   @override
+  _My_Home_Page_State createState() => _My_Home_Page_State();
+}
+
+class _My_Home_Page_State extends State<MyHomePage>{
+  int _currentIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
-    const int col = 15;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
-        backgroundColor: const Color.fromRGBO(col, col, col, 0.7),
+        backgroundColor: const Color.fromRGBO(20, 20, 20, 0.8),
         titleTextStyle: const TextStyle(
-          color: Colors.deepPurpleAccent,
+          color: Color.fromRGBO(255, 255, 255, 1),
           fontWeight: FontWeight.bold,
           fontSize: 25,
         ),
@@ -38,13 +43,13 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                  'Welcome to Metro Booking',
+                'Welcome to Metro Booking',
               ),
               Text(
                 "Pulkit",
                 style: TextStyle(
-                  color: Colors.blueAccent,
-                  fontStyle: FontStyle.italic
+                    color: Colors.blueAccent,
+                    fontStyle: FontStyle.italic
                 ),
                 textAlign: TextAlign.left,
               )
@@ -63,55 +68,16 @@ class MyHomePage extends StatelessWidget {
       ),
       body: const Center(
         child: Text(
-            'Content goes here',
+          'Content goes here',
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black45,
-              blurRadius: 15.0,
-              offset: Offset(0.0, 0.75),
-            )
-          ]
-        ),
-        child: BottomNavigationBar(
-          unselectedLabelStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-          ),
-          unselectedItemColor: Colors.white,
-          fixedColor: Colors.deepPurpleAccent,
-          backgroundColor: const Color.fromRGBO(col, col, col, 0.8),
-          elevation: 0,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                  Icons.home_outlined,
-                color: Colors.white,
-              ),
-              label: 'Home',
-              // backgroundColor: Colors.white,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.airplane_ticket_outlined,
-                color: Colors.white,
-              ),
-              label: 'Tickets',
-              backgroundColor: Colors.white,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                  Icons.account_circle,
-                  color: Colors.white,
-              ),
-              label: 'Account',
-              backgroundColor: Colors.white,
-            ),
-          ],
-        ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
       ),
     );
   }
