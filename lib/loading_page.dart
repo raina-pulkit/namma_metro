@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:namma_metro/main.dart';
+import 'package:namma_metro/home.dart';
 
 class LoadingPage extends StatefulWidget{
   const LoadingPage({super.key});
@@ -35,7 +35,7 @@ class _LoadingPageState extends State<LoadingPage>{
           children: [
             Center(
               child: Image.asset(
-                'images/circle_logo.png',
+                'images/straight_logo.png',
                 height: 350,
                 width: 350,
                 fit: BoxFit.contain,
