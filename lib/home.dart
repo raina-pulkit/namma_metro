@@ -64,9 +64,14 @@ class _My_Home_Page_State extends State<MyHomePage>{
           color: Colors.red,
         ),
       ),
-      body: const Center(
-        child: Text(
-          'Content goes here',
+      body: Center(
+        child: Column(
+          children: [
+            const Text(
+              'Content goes here',
+            ),
+            Image.asset('images/straight_logo.png'),
+          ],
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
