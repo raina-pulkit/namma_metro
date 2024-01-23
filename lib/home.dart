@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namma_metro/bottom_nav_bar.dart';
 
-void main() => runApp(const MyApp());
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -66,9 +64,14 @@ class _My_Home_Page_State extends State<MyHomePage>{
           color: Colors.red,
         ),
       ),
-      body: const Center(
-        child: Text(
-          'Content goes here',
+      body: Center(
+        child: Column(
+          children: [
+            const Text(
+              'Content goes here',
+            ),
+            Image.asset('images/straight_logo.png'),
+          ],
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
