@@ -17,10 +17,12 @@ LinearGradient lgBtm() {
 class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
+  // final BuildContext context;
 
   const CustomBottomNavigationBar({super.key,
     required this.currentIndex,
     required this.onTap,
+    // required this.context,
   });
 
   @override
@@ -58,7 +60,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   Widget _buildNavItem({required IconData icon, required String label, required int index}) {
     return GestureDetector(
-      onTap: () => onTap(index),
+      onTap: () {
+        onTap(index);
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (cpntext) => Page2()
+        //   ),
+        // );
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:namma_metro/home.dart';
+import 'package:namma_metro/template_page.dart';
 
 class LoadingPage extends StatefulWidget{
   const LoadingPage({super.key});
@@ -75,10 +75,10 @@ class AnotherPage extends State<_Another_Page>{
 
     Future.delayed(
         const Duration(seconds: 5), () {
-      Navigator.pushReplacement(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const MyApp(),
+            builder: (context) => const Template(),
           )
       );
     }

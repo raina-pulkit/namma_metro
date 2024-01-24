@@ -35,51 +35,53 @@ class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
         borderRadius: const BorderRadius.vertical(top: Radius.circular(0), bottom: Radius.circular(20)),
       ),
       padding: const EdgeInsets.only(top: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          SizedBox(
-            height: 45,
-            width: 45,
-            child: ElevatedButton(
-                onPressed: () {
-                stdout.write("Hello");
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size.zero,
-                padding: EdgeInsets.zero
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 45,
+              width: 45,
+              child: ElevatedButton(
+                  onPressed: () {
+                  stdout.write("Hello");
+                  },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size.zero,
+                  padding: EdgeInsets.zero,
+                  backgroundColor: Colors.transparent,
+                ),
+                child: SvgPicture.asset(
+                  'images/left-arrow.svg',
+                  semanticsLabel: 'Left Arrow',
+                  height: 30,
+                  width: 30,
+                  color: Colors.white,
+                ),
               ),
-              child: SvgPicture.asset(
-                'images/left-arrow.svg',
-                semanticsLabel: 'Left Arrow',
-                height: 30,
-                width: 30,
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 20),
+              child: Text(
+                text,
+                style: GoogleFonts.rajdhani(
+                  fontSize: 23,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-          Text(
-            text,
-            style: GoogleFonts.rajdhani(
-              fontSize: 23,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
-            child: const Image(
+            const Spacer(),
+            const Image(
               image: ResizeImage(
                 AssetImage('images/circle_logo.png'),
                 width: 50,
                 height: 50,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
