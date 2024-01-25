@@ -1,8 +1,14 @@
-import 'dart:io';
+import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:namma_metro/AuthPages/login.dart';
+
+import '../firebase_options.dart';
 
 void main() => runApp(const RegisterPage());
 
@@ -14,6 +20,33 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController userNameCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController passwordCtrl = TextEditingController();
+
+  void createUser() async{
+    String userName = userNameCtrl.text;
+    String email = emailCtrl.text.trim();
+    String password = passwordCtrl.text.trim();
+
+    assert(EmailValidator.validate(email));
+
+    if((password == "") || (email == "") || (userName == "")){
+      log("Please fill all details");
+    }
+    else{
+      try{
+        UserCredential uc = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+        if(uc.user != null){
+          Navigator.pop(context);
+        }
+      }
+      on FirebaseAuthException catch(exception){
+        log(exception.code.toString());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,6 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
+
           Container(
             padding: const EdgeInsets.only(left: 35, top: 100),
             child: Text(
@@ -40,6 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
+
           SingleChildScrollView(
             child: Container(
               height: 500,
@@ -50,6 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
                   children: [
                     TextField(
+                      controller: userNameCtrl,
                       decoration: InputDecoration(
                         fillColor: Colors.grey.shade100,
                         filled: true,
@@ -63,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 30,
                     ),
                     TextField(
-                      obscureText: true,
+                      controller: emailCtrl,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
                           filled: true,
@@ -77,6 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 30,
                     ),
                     TextField(
+                      controller: passwordCtrl,
                       obscureText: true,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
@@ -94,7 +131,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Login(),
+                                ),
+                              );
+                            },
                             child: const Text(
                               "Login",
                               style: TextStyle(
@@ -117,7 +161,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               CircleAvatar(
                                 radius: 25,
                                 backgroundColor: const Color(0xff4c505b),
-                                child: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_forward)),
+                                child: IconButton(
+                                  onPressed: createUser,
+                                  icon: const Icon(Icons.arrow_forward)
+                                ),
                               )
                             ]
                         )
@@ -131,6 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
+
           Positioned(
             top: 30,
             left: 10,
@@ -139,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
               width: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  stdout.write("Hello");
+                  Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size.zero,

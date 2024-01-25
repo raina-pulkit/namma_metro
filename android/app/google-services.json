@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "950570293311",
+    "project_id": "namma-metro-36b56",
+    "storage_bucket": "namma-metro-36b56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950570293311:android:ac9b9fe1fdbb97a385808a",
+        "android_client_info": {
+          "package_name": "com.example.namma_metro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSICmvEK1eDe7rdZEQdGrVrR7PziRdZoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namma_metro/plain_login_borders.dart';
-
-void main() => runApp(const LoginSignup());
+import 'package:namma_metro/AuthPages/login.dart';
+import 'package:namma_metro/AuthPages/register.dart';
 
 class LoginSignup extends StatelessWidget{
   const LoginSignup({super.key});
@@ -28,7 +28,14 @@ class LoginSignup extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Login(),
+                      ),
+                    );
+                  },
                   icon: const Icon(Icons.account_circle_outlined, size: 30,),
                   label: const Text(
                     "Login",
@@ -43,7 +50,14 @@ class LoginSignup extends StatelessWidget{
                   ),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RegisterPage(),
+                      ),
+                    );
+                  },
                   icon: const Icon(Icons.add_box_outlined, size: 30,),
                   label: const Text(
                     "Sign Up",

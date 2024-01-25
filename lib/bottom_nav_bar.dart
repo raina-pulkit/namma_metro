@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:namma_metro/AuthPages/login.dart';
+import 'package:namma_metro/AuthPages/register.dart';
+import 'package:namma_metro/sample.dart';
+import 'package:namma_metro/template_page.dart';
+
 LinearGradient lgBtm() {
   return const LinearGradient(
     colors: <Color>[
@@ -14,76 +20,54 @@ LinearGradient lgBtm() {
   );
 }
 
-class CustomBottomNavigationBar extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onTap;
-  // final BuildContext context;
+// To be added
+const screens = [
+  RegisterPage(),
+  MyApp(),
+  RegisterPage()
+];
 
-  const CustomBottomNavigationBar({super.key,
-    required this.currentIndex,
-    required this.onTap,
-    // required this.context,
-  });
+class CustomBottomNavigationBar extends StatefulWidget {
+  final int currentIndex;
+  const CustomBottomNavigationBar({super.key, required this.currentIndex});
+
+  @override
+  State<CustomBottomNavigationBar> createState() => _CustomBottomNavigationBar();
+}
+
+
+class _CustomBottomNavigationBar extends State<CustomBottomNavigationBar> {
+  int index = 0;
+
+  static const items = <Widget>[
+    Icon(Icons.home),
+    Icon(Icons.airplane_ticket_outlined),
+    Icon(Icons.account_circle),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          boxShadow: const <BoxShadow>[
-            BoxShadow(
-              color: Colors.black45,
-              blurRadius: 15.0,
-              offset: Offset(0.0, 0.75),
-            ),
-          ],
-          gradient: lgBtm(),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(0)),
-          color: const Color.fromRGBO(20, 20, 20, 0.75),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 1000),
-          curve: Curves.easeInOutCubic,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(child: _buildNavItem(icon: Icons.home, label: 'Home', index: 0),),
-              Expanded(child: _buildNavItem(icon: Icons.airplane_ticket_outlined, label: 'Tickets', index: 1),),
-              Expanded(child: _buildNavItem(icon: Icons.account_circle, label: 'Profile', index: 2),),
-            ],
-          ),
+    return Scaffold(
+      extendBody: true,
+      body: screens[index],
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
-      ),
-    );
-  }
-
-  Widget _buildNavItem({required IconData icon, required String label, required int index}) {
-    return GestureDetector(
-      onTap: () {
-        onTap(index);
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (cpntext) => Page2()
-        //   ),
-        // );
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: currentIndex == index ? 50 : 24,
-            color: currentIndex == index ? Colors.blue : Colors.white,
-          ),
-          Text(
-            label,
-            style: TextStyle(
-              color: currentIndex == index ? Colors.blue : Colors.white,
-            ),
-          ),
-        ],
+        child: CurvedNavigationBar(
+          color: const Color(0xff870160),
+          backgroundColor: Colors.transparent,
+          buttonBackgroundColor: Colors.black,
+            items: items,
+          height: 60,
+          index: index,
+          onTap: (index){
+            setState(() {
+              this.index = index;
+            });
+          },
+          animationDuration: const Duration(milliseconds: 300),
+        ),
       ),
     );
   }

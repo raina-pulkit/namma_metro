@@ -1,10 +1,14 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:namma_metro/template_page.dart';
 
-void main() => runApp(const Login());
+import '../firebase_options.dart';
 
 class Login extends StatefulWidget{
   const Login({Key? key}) : super(key: key);
@@ -14,8 +18,40 @@ class Login extends StatefulWidget{
 }
 
 class _MyLoginState extends State<Login>{
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController passCtrl = TextEditingController();
+
+  void authUser() async{
+    String email = emailCtrl.text.trim();
+    String password = passCtrl.text.trim();
+
+    if((email == "") || (password == "")){
+      log("Fill in details properly!");
+    }
+    else{
+      try{
+        log("Here");
+        UserCredential uc = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+        if(uc.user != null){
+          Navigator.popUntil(context, (route) => route.isFirst);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Template(),
+            ),
+          );
+        }
+      }
+      on FirebaseAuthException catch(exception){
+        log(exception.code.toString());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context){
+    if(FirebaseAuth.instance.currentUser != null) return const Template();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Stack(
@@ -52,6 +88,7 @@ class _MyLoginState extends State<Login>{
                         child: Column(
                           children: [
                             TextField(
+                              controller: emailCtrl,
                               decoration: InputDecoration(
                                   fillColor: Colors.grey.shade100,
                                   filled: true,
@@ -65,6 +102,7 @@ class _MyLoginState extends State<Login>{
                               height: 30,
                             ),
                             TextField(
+                              controller: passCtrl,
                               obscureText: true,
                               decoration: InputDecoration(
                                   fillColor: Colors.grey.shade100,
@@ -92,7 +130,7 @@ class _MyLoginState extends State<Login>{
                                 CircleAvatar(
                                   radius: 30,
                                   backgroundColor: const Color(0xff4c505b),
-                                  child: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_forward)),
+                                  child: IconButton(onPressed: authUser, icon: const Icon(Icons.arrow_forward)),
                                 )
                               ],
                             ),
@@ -146,7 +184,7 @@ class _MyLoginState extends State<Login>{
               width: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  stdout.write("Hello");
+                  Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size.zero,
