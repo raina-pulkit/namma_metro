@@ -1,8 +1,10 @@
 // ignore_for_file: camel_case_types
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:namma_metro/home.dart';
+import 'package:namma_metro/AuthPages/login_signup.dart';
+import 'package:namma_metro/Templates/template_page.dart';
 
 class LoadingPage extends StatefulWidget{
   const LoadingPage({super.key});
@@ -75,11 +77,17 @@ class AnotherPage extends State<_Another_Page>{
 
     Future.delayed(
         const Duration(seconds: 5), () {
-      Navigator.pushReplacement(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const MyApp(),
-          )
+            builder: (context) {
+              if(FirebaseAuth.instance.currentUser != null) {
+                return const Template();
+              } else {
+                return const LoginSignup();
+              }
+            },
+          ),
       );
     }
     );

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "950570293311",
+    "project_id": "namma-metro-36b56",
+    "storage_bucket": "namma-metro-36b56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950570293311:android:ac9b9fe1fdbb97a385808a",
+        "android_client_info": {
+          "package_name": "com.example.namma_metro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950570293311-suiee4dnl57d9utu7kni1oh7jaf6tkpt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.namma_metro",
+            "certificate_hash": "8d0937e7d63857ad9fa24919057b4ca5f01ffb71"
+          }
+        },
+        {
+          "client_id": "950570293311-b50dchjq675kfr7k3ccoljbrhvv5g2ss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSICmvEK1eDe7rdZEQdGrVrR7PziRdZoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950570293311-b50dchjq675kfr7k3ccoljbrhvv5g2ss.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "950570293311-3d5uocfk566t30ivghaejou8ebh72vvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nammaMetro"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
