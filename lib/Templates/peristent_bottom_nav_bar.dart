@@ -32,7 +32,7 @@ class _PersistentNavBarState extends State<PersistentNavBar> {
   @override
   Widget build(BuildContext context) {
     final tabCtr = PersistentTabController(
-      initialIndex: 1,
+      initialIndex: 0,
     );
 
     final List<Widget> screens = [
