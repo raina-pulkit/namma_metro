@@ -19,7 +19,7 @@ class _LoadingPageState extends State<LoadingPage>{
     super.initState();
 
     Future.delayed(
-      const Duration(seconds: 5), () {
+      const Duration(seconds: 3), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -76,7 +76,7 @@ class AnotherPage extends State<_Another_Page>{
     super.initState();
 
     Future.delayed(
-        const Duration(seconds: 5), () {
+        const Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

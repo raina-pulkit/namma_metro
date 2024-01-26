@@ -27,7 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String password = passwordCtrl.text.trim();
 
     if((password == "") || (email == "") || (userName == "")){
-      _showSnackBar(context, "Please fill all details");
+      _showSnackBar(context, "Please fill all details", Colors.red);
     }
     else{
       try{
@@ -37,12 +37,12 @@ class _RegisterPageState extends State<RegisterPage> {
         }
       }
       on FirebaseAuthException catch(exception){
-        _showSnackBar(context, exception.message ?? "An error occurred");
+        _showSnackBar(context, exception.message ?? "An error occurred", Colors.red);
       }
     }
   }
 
-  void _showSnackBar(BuildContext context, String message) {
+  void _showSnackBar(BuildContext context, String message, Color col) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -51,7 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
             fontSize: 16,
           ),
         ),
-        backgroundColor: Colors.red,
+        backgroundColor: col,
         duration: const Duration(seconds: 3),
       ),
     );
