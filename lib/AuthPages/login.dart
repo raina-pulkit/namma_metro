@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/register.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../Templates/peristent_bottom_nav_bar.dart';
-import '../Templates/square_tile.dart';
+import '../Pages/peristent_bottom_nav_bar.dart';
+import '../Pages/square_tile.dart';
 import 'forgot_password.dart';
 import 'login_signup.dart';
 

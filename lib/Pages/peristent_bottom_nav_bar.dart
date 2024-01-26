@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:namma_metro/Templates/tickets2.dart';
+import 'package:namma_metro/Pages/profile_menu.dart';
+import 'package:namma_metro/Pages/tickets2.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../firebase_options.dart';
 import 'contact_us.dart';
 
 LinearGradient lgBtm() {
@@ -17,6 +20,14 @@ LinearGradient lgBtm() {
       Color(0xffffb56b),
     ],
   );
+}
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const PersistentNavBar());
 }
 
 class PersistentNavBar extends StatefulWidget {
@@ -67,7 +78,7 @@ class _PersistentNavBarState extends State<PersistentNavBar> {
       ),
       Builder(
           builder: (context) {
-            return const Text("Profile");
+            return const ProfileMenu();
           }
       ),
       Builder(

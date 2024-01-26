@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namma_metro/AuthPages/register.dart';
-import 'package:namma_metro/Templates/top_app_bar.dart';
+import 'package:namma_metro/Pages/top_app_bar.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});

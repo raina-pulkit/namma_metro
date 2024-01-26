@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:namma_metro/Templates/plain_login_borders.dart';
+import 'package:namma_metro/Pages/plain_login_borders.dart';
 import 'package:namma_metro/AuthPages/login.dart';
 import 'package:namma_metro/AuthPages/register.dart';
-import '../Templates/peristent_bottom_nav_bar.dart';
+import '../Pages/peristent_bottom_nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginSignup extends StatelessWidget{

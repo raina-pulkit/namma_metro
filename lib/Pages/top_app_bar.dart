@@ -71,6 +71,7 @@ class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
                   fontSize: 23,
                   fontWeight: FontWeight.w800,
                   color: Colors.white,
+                  decoration: TextDecoration.none
                 ),
               ),
             ),
