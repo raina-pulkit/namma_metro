@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:namma_metro/AuthPages/login.dart';
 import 'package:namma_metro/AuthPages/register.dart';
 import 'package:namma_metro/sample.dart';
-import 'package:namma_metro/template_page.dart';
 
 LinearGradient lgBtm() {
   return const LinearGradient(

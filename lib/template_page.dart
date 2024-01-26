@@ -28,7 +28,6 @@ class Template extends StatelessWidget {
       title: 'Metro Ticket Booking',
       theme: ThemeData(
         backgroundColor: Colors.transparent,
-
       ),
       home: const MyHomePage(),
     );

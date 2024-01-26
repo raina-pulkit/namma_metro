@@ -3,6 +3,8 @@ import 'package:namma_metro/plain_login_borders.dart';
 import 'package:namma_metro/AuthPages/login.dart';
 import 'package:namma_metro/AuthPages/register.dart';
 
+void main() => runApp(const LoginSignup());
+
 class LoginSignup extends StatelessWidget{
   const LoginSignup({super.key});
 
