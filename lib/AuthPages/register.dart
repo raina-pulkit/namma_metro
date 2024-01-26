@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/login.dart';
+import 'package:namma_metro/AuthPages/login_signup.dart';
 
 
 void main() => runApp(const RegisterPage());
@@ -155,8 +156,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             children: [
                               TextButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
+                                    Navigator.popUntil(context, (route) => route.isFirst);
+                                    Navigator.pushReplacement(
+                                      context,
                                       MaterialPageRoute(
                                         builder: (context) => const Login(),
                                       ),
@@ -213,6 +215,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginSignup()
+                      )
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size.zero,

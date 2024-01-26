@@ -1,14 +1,13 @@
-
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/register.dart';
-import 'package:namma_metro/Templates/template_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../Templates/peristent_bottom_nav_bar.dart';
 import '../Templates/square_tile.dart';
+import 'forgot_password.dart';
+import 'login_signup.dart';
 
 class Login extends StatefulWidget{
   const Login({Key? key}) : super(key: key);
@@ -28,23 +27,23 @@ class _MyLoginState extends State<Login>{
     String password = passCtrl.text.trim();
 
     if((email == "") || (password == "")){
-      _showSnackBar(context, "Please fill all details");
+      _showSnackBar("Please fill all details");
     }
     else{
       try{
         UserCredential uc = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
         if(uc.user != null){
           Navigator.popUntil(context, (route) => route.isFirst);
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const Template(),
+              builder: (context) => const PersistentNavBar(),
             ),
           );
         }
       }
       on FirebaseAuthException catch(exception){
-        _showSnackBar(context, exception.message ?? "An error occurred");
+        _showSnackBar(exception.message ?? "An error occurred");
       }
     }
   }
@@ -66,21 +65,20 @@ class _MyLoginState extends State<Login>{
       UserCredential uc = await FirebaseAuth.instance.signInWithCredential(credential);
       if(uc.user != null){
         Navigator.popUntil(context, (route) => route.isFirst);
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const Template(),
+            builder: (context) => const PersistentNavBar(),
           ),
         );
       }
     }
     on FirebaseAuthException catch(exception){
-      _showSnackBar(context, exception.message ?? "An error occurred! Try again!");
+      _showSnackBar(exception.message ?? "An error occurred! Try again!");
     }
   }
 
-  void _showSnackBar(BuildContext context, String message) {
-    log("Here");
+  void _showSnackBar(String message) {
     ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
       SnackBar(
         content: Text(
@@ -97,8 +95,14 @@ class _MyLoginState extends State<Login>{
 
   @override
   Widget build(BuildContext context){
-    FirebaseAuth.instance.signOut();
-    if(FirebaseAuth.instance.currentUser != null) return const Template();
+    if(FirebaseAuth.instance.currentUser != null){
+      Navigator.popUntil(
+        context,
+        (route) => route.isFirst
+      );
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PersistentNavBar()));
+      return const PersistentNavBar();
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -137,101 +141,105 @@ class _MyLoginState extends State<Login>{
                      color: Colors.transparent,
                      child: Column(
                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: TextField(
-                              controller: emailCtrl,
-                              decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  fillColor: Colors.grey.shade100,
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  )
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: TextField(
-                              controller: passCtrl,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                  labelText: 'Password',
-                                  fillColor: Colors.grey.shade100,
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  )
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SquareTile(
-                                imagePath: 'images/google.png',
-                                onTap: signInWithGoogle,
-                              ),
-                              const Spacer(),
-                              const Text(
-                                "Log In",
-                                style: TextStyle(
-                                  color: Color(0xff4c505b),
-                                  fontSize: 30, fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const SizedBox(width: 20,),
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor: const Color(0xff4c505b),
-                                child: IconButton(onPressed: authUser, icon: const Icon(Icons.arrow_forward)),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: TextField(
+                            controller: emailCtrl,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              fillColor: Colors.grey.shade100,
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
                               )
-                            ],
+                            ),
                           ),
-                          const SizedBox(
-                            height: 20,
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: TextField(
+                            controller: passCtrl,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              fillColor: Colors.grey.shade100,
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              )
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const RegisterPage(),
-                                      ),
-                                    );
-                                  },
-                                  child: const Text(
-                                    "Sign Up",
-                                    style: TextStyle(
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SquareTile(
+                              imagePath: 'images/google.png',
+                              onTap: signInWithGoogle,
+                            ),
+                            const Spacer(),
+                            const Text(
+                              "Log In",
+                              style: TextStyle(
+                                color: Color(0xff4c505b),
+                                fontSize: 30, fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(width: 20,),
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: const Color(0xff4c505b),
+                              child: IconButton(onPressed: authUser, icon: const Icon(Icons.arrow_forward, color: Colors.white,)),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.popUntil(context, (route) => route.isFirst);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const RegisterPage(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 20,
+                                  color: Color(0xff4c505b),
+                                ),
+                              )
+                            ),
+
+                            TextButton(
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ForgotPasswordPage(),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Forgot Password",
+                                  style: TextStyle(
                                       decoration: TextDecoration.underline,
                                       fontSize: 20,
-                                      color: Color(0xff4c505b),
-                                    ),
-                                  )
-                              ),
-                              // SizedBox(
-                              //   width: 20,
-                              // ),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "Forgot Password",
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        fontSize: 20,
-                                        color: Color(0xff4c505b)
-                                    ),
-                                  )
+                                      color: Color(0xff4c505b)
+                                  ),
+                                )
                               ),
                             ],
                           ),
@@ -252,6 +260,12 @@ class _MyLoginState extends State<Login>{
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginSignup()
+                        )
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size.zero,

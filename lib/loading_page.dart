@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/login_signup.dart';
-import 'package:namma_metro/Templates/template_page.dart';
+import 'Templates/peristent_bottom_nav_bar.dart';
 
 class LoadingPage extends StatefulWidget{
   const LoadingPage({super.key});
@@ -19,7 +19,7 @@ class _LoadingPageState extends State<LoadingPage>{
     super.initState();
 
     Future.delayed(
-      const Duration(seconds: 3), () {
+      const Duration(seconds: 1), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -76,13 +76,13 @@ class AnotherPage extends State<_Another_Page>{
     super.initState();
 
     Future.delayed(
-        const Duration(seconds: 3), () {
+        const Duration(seconds: 1), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
               if(FirebaseAuth.instance.currentUser != null) {
-                return const Template();
+                return const PersistentNavBar();
               } else {
                 return const LoginSignup();
               }

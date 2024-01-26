@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:namma_metro/Templates/plain_login_borders.dart';
 import 'package:namma_metro/AuthPages/login.dart';
 import 'package:namma_metro/AuthPages/register.dart';
-
-void main() => runApp(const LoginSignup());
+import '../Templates/peristent_bottom_nav_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginSignup extends StatelessWidget{
   const LoginSignup({super.key});
 
   @override
   Widget build(BuildContext context) {
+    if(FirebaseAuth.instance.currentUser != null) return const PersistentNavBar();
+
     Container c = Container(
       height: 500,
       padding: EdgeInsets.zero,
