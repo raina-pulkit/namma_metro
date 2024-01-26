@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/register.dart';
-import 'package:namma_metro/template_page.dart';
+import 'package:namma_metro/Templates/template_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../square_tile.dart';
+import '../Templates/square_tile.dart';
 
 class Login extends StatefulWidget{
   const Login({Key? key}) : super(key: key);

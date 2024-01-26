@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:namma_metro/plain_login_borders.dart';
+import 'package:namma_metro/Templates/plain_login_borders.dart';
 import 'package:namma_metro/AuthPages/login.dart';
 import 'package:namma_metro/AuthPages/register.dart';
 

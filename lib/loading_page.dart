@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/login_signup.dart';
-import 'package:namma_metro/template_page.dart';
+import 'package:namma_metro/Templates/template_page.dart';
 
 class LoadingPage extends StatefulWidget{
   const LoadingPage({super.key});
