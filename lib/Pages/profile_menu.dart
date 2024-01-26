@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -138,13 +140,67 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20), // Button padding
               ),
               onPressed: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.popUntil(context, (route) => route.isFirst);
-                PersistentNavBarNavigator.pushNewScreen(
-                  context,
-                  screen: const LoginSignup(),
-                  withNavBar: false, // OPTIONAL VALUE. True by default.
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+                        child: AlertDialog(
+                          backgroundColor: Colors.deepPurpleAccent,
+                          title: Text(
+                            "Logout Confirmation",
+                            style: GoogleFonts.rajdhani(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w700
+                            ),
+                          ),
+                          content: Text(
+                            "Are you sure you want to log out?",
+                            style: GoogleFonts.rajdhani(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: Text(
+                                "No",
+                                style: GoogleFonts.rajdhani(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                FirebaseAuth.instance.signOut();
+                                Navigator.popUntil(context, (route) => route.isFirst);
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: const LoginSignup(),
+                                  withNavBar: false,
+                                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                );
+                              },
+                              child: Text(
+                                "Yes",
+                                style: GoogleFonts.rajdhani(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                 );
               },
               child: Text(
@@ -154,7 +210,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                   fontWeight: FontWeight.w800
                 ),
               )
-            )
+            ),
           ],
         ),
       ),
