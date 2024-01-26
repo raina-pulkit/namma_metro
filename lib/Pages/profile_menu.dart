@@ -25,8 +25,8 @@ class _ProfileMenuState extends State<ProfileMenu> {
       height: 70,
       padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 0),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(25)),
-        color: Colors.white60,
+        borderRadius: const BorderRadius.only(topRight: Radius.circular(25), bottomLeft: Radius.circular(25)),
+        color: const Color.fromRGBO(250, 250, 250, 0.9),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
