@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +10,45 @@ import '../Pages/peristent_bottom_nav_bar.dart';
 import '../Pages/square_tile.dart';
 import 'forgot_password.dart';
 import 'login_signup.dart';
+
+class PasswordField extends StatefulWidget {
+  final TextEditingController controller;
+
+  const PasswordField({Key? key, required this.controller}) : super(key: key);
+
+  @override
+  _PasswordFieldState createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<PasswordField> {
+  bool _obscure = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget.controller,
+      obscureText: _obscure,
+      decoration: InputDecoration(
+        labelText: 'Password',
+        fillColor: Colors.grey.shade100,
+        filled: true,
+        prefixIcon: const Icon(Icons.password),
+        suffixIcon: IconButton(
+          onPressed: () {
+            setState(() {
+              _obscure = !_obscure;
+            });
+          },
+          icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+}
+
 
 class Login extends StatefulWidget{
   const Login({Key? key}) : super(key: key);
@@ -105,6 +146,9 @@ class _MyLoginState extends State<Login>{
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PersistentNavBar()));
       return const PersistentNavBar();
     }
+
+    bool _obsure = true;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -151,6 +195,7 @@ class _MyLoginState extends State<Login>{
                               labelText: 'Email',
                               fillColor: Colors.grey.shade100,
                               filled: true,
+                              prefixIcon: const Icon(Icons.email),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               )
@@ -160,20 +205,13 @@ class _MyLoginState extends State<Login>{
                         const SizedBox(
                           height: 30,
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: TextField(
-                            controller: passCtrl,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              fillColor: Colors.grey.shade100,
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              )
-                            ),
-                          ),
+                        Builder(
+                          builder: (context) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              child: PasswordField(controller: passCtrl,),
+                            );
+                          }
                         ),
                         const SizedBox(
                           height: 20,

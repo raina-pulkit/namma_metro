@@ -1,9 +1,9 @@
-  import 'package:firebase_auth/firebase_auth.dart';
-  import 'package:flutter/material.dart';
-  import 'package:flutter_svg/svg.dart';
-  import 'package:google_fonts/google_fonts.dart';
-  import 'package:namma_metro/AuthPages/login.dart';
-  import 'package:namma_metro/AuthPages/login_signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:namma_metro/AuthPages/login.dart';
+import 'package:namma_metro/AuthPages/login_signup.dart';
 
 
   void main() => runApp(const RegisterPage());
@@ -147,19 +147,7 @@
                               ),
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 10),
-                                child: TextField(
-                                  controller: passwordCtrl,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    labelText: "Password",
-                                    fillColor: Colors.grey.shade100,
-                                    filled: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    prefixIcon: const Icon(Icons.password)
-                                  ),
-                                ),
+                                child: PasswordField(controller: passwordCtrl,),
                               ),
                               const SizedBox(
                                 height: 20,
