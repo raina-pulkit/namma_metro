@@ -76,7 +76,7 @@ class _MyLoginState extends State<Login>{
       });
     }
     on FirebaseAuthException catch(exception){
-      _showSnackBar(exception.message ?? "An error occurred! Try again!");
+      _showSnackBar(exception.message ?? "An error occurred! Please try again!");
     }
   }
 
