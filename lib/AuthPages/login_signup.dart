@@ -55,7 +55,7 @@ class LoginSignup extends StatelessWidget{
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const RegisterPage(),

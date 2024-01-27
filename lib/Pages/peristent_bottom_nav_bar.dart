@@ -93,7 +93,7 @@ class _PersistentNavBarState extends State<PersistentNavBar> {
         icon: const Icon(Icons.home, color: Color.fromRGBO(0, 153, 76, 1)),
         inactiveIcon: const Icon(Icons.home, color: Colors.white,),
         title: "Home",
-        activeColorPrimary: CupertinoColors.activeGreen,
+        activeColorPrimary: CupertinoColors.link,
         // onPressed: () {
         //   PersistentNavBarNavigator.pushNewScreen(context, screen: Ticket());
         // }

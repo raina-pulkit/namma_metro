@@ -62,16 +62,18 @@ class _MyLoginState extends State<Login>{
     );
 
     try{
-      UserCredential uc = await FirebaseAuth.instance.signInWithCredential(credential);
-      if(uc.user != null){
-        Navigator.popUntil(context, (route) => route.isFirst);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const PersistentNavBar(),
-          ),
-        );
-      }
+      await FirebaseAuth.instance.signInWithCredential(credential)
+      .then((result) {
+        if(result.user != null){
+          Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const PersistentNavBar(),
+            ),
+          );
+        }
+      });
     }
     on FirebaseAuthException catch(exception){
       _showSnackBar(exception.message ?? "An error occurred! Try again!");

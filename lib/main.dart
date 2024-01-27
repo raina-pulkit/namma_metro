@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/loading_page.dart';
+import 'Pages/faq.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Main Page',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
         textTheme: GoogleFonts.rajdhaniTextTheme(
           Theme.of(context).textTheme,
         ),
+        secondaryHeaderColor: Colors.deepPurpleAccent
       ),
       home: const LoadingPage(),
     );

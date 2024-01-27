@@ -67,8 +67,9 @@ class _ProfileMenuState extends State<ProfileMenu> {
     TransactionHistory(),
     MyTickets(),
     SmartCardRecharge(),
-    FAQ()
+    const FAQ()
   ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -121,7 +122,10 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 itemCount: 5,
                 itemBuilder: (context, index){
                   return GestureDetector(
-                    onTap: () => page[index],
+                    onTap: () async => await PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: page[index]
+                    ),
                     child: listItem(profile[index]),
                   );
                 },

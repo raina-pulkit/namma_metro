@@ -19,7 +19,7 @@ class _LoadingPageState extends State<LoadingPage>{
     super.initState();
 
     Future.delayed(
-      const Duration(seconds: 1), () {
+      const Duration(seconds: 3), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -34,31 +34,33 @@ class _LoadingPageState extends State<LoadingPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Image.asset(
-                'images/straight_logo.png',
-                height: 350,
-                width: 350,
-                fit: BoxFit.contain,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-              child: Text(
-                "Seamless Commutes, Limitless Connections",
-                style: GoogleFonts.rajdhani(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
-                  fontStyle: FontStyle.italic,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Image.asset(
+                  'images/straight_logo.png',
+                  height: 350,
+                  width: 350,
+                  fit: BoxFit.contain,
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-            const CircularProgressIndicator(),
-          ],
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                child: Text(
+                  "Seamless Commutes, Limitless Connections",
+                  style: GoogleFonts.rajdhani(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w800,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const CircularProgressIndicator(),
+            ],
+          ),
         ),
       ),
     );
@@ -76,7 +78,7 @@ class AnotherPage extends State<_Another_Page>{
     super.initState();
 
     Future.delayed(
-        const Duration(seconds: 1), () {
+        const Duration(seconds: 4), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -99,47 +101,49 @@ class AnotherPage extends State<_Another_Page>{
       appBar: AppBar(
         title: const Text(''),
       ),
-      body: Column(
-        children: [
-          Center(
-            child: Image.asset(
-                'images/woman.png',
-              height: 400,
-              width: 250,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            decoration: const BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black45,
-                  blurRadius: 15.0,
-                  offset: Offset(0.0, 0.75),
-                ),
-              ],
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: Colors.white60,
-            ),
-            child: Image.asset(
-              'images/straight_logo.png',
-              height: 100,
-              width: 300,
-              fit: BoxFit.contain,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            child: Text(
-              "Welcomes you!",
-              style: GoogleFonts.rajdhani(
-                fontSize: 50,
-                fontWeight: FontWeight.w800,
-                fontStyle: FontStyle.italic,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Center(
+              child: Image.asset(
+                  'images/woman.png',
+                height: 400,
+                width: 250,
               ),
             ),
-          ),
-        ],
+            Container(
+              margin: const EdgeInsets.only(top: 20),
+              decoration: const BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.black45,
+                    blurRadius: 15.0,
+                    offset: Offset(0.0, 0.75),
+                  ),
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Colors.white60,
+              ),
+              child: Image.asset(
+                'images/straight_logo.png',
+                height: 100,
+                width: 300,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20),
+              child: Text(
+                "Welcomes you!",
+                style: GoogleFonts.rajdhani(
+                  fontSize: 50,
+                  fontWeight: FontWeight.w800,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
