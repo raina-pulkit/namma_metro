@@ -206,7 +206,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                               onPressed: () async {
                                 try{
                                   await FirebaseAuth.instance.signOut().then((res) {
-                                    Navigator.popUntil(context, (route) => route.isFirst);
+                                    Navigator.popUntil(context, (route) => false);
                                     PersistentNavBarNavigator.pushNewScreen(
                                       context,
                                       screen: const LoginSignup(),
