@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:namma_metro/Pages/color.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -65,13 +66,14 @@ class _ContactPageState extends State<ContactPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: CustomTopAppBar(text: 'Contact Us', show: false, context: context,),
-        body: Scaffold(
-          key: _scaffoldKey,
-          body: Center(
-            child: Builder(
+    return Scaffold(
+      appBar: CustomTopAppBar(text: 'Contact Us', show: false, context: context,),
+      body: Scaffold(
+        backgroundColor: primary,
+        extendBody: true,
+        key: _scaffoldKey,
+        body: Center(
+          child: Builder(
               builder: (context) {
                 return Column(
                   children: [
@@ -101,8 +103,8 @@ class _ContactPageState extends State<ContactPage> {
                                 Text(
                                   "Phone: +91-123456789",
                                   style: GoogleFonts.rajdhani(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w800
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w800
                                   ),
                                   softWrap: true,
                                 )
@@ -154,7 +156,6 @@ class _ContactPageState extends State<ContactPage> {
                   ],
                 );
               }
-            ),
           ),
         ),
       ),

@@ -93,38 +93,55 @@ class _PersistentNavBarState extends State<PersistentNavBar> {
         icon: const Icon(Icons.home, color: Color.fromRGBO(0, 153, 76, 1)),
         inactiveIcon: const Icon(Icons.home, color: Colors.white,),
         title: "Home",
-        activeColorPrimary: CupertinoColors.link,
-        // onPressed: () {
-        //   PersistentNavBarNavigator.pushNewScreen(context, screen: Ticket());
-        // }
+        textStyle: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w700
+        ),
+        activeColorPrimary: CupertinoColors.systemTeal,
       ),
 
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.search, color: Color.fromRGBO(0, 153, 76, 1),),
         inactiveIcon: const Icon(Icons.search, color: Colors.white),
         title: "Search",
-        activeColorPrimary: CupertinoColors.activeGreen,
+        textStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700
+        ),
+        activeColorPrimary: CupertinoColors.systemTeal,
       ),
 
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.airplane_ticket, color: Color.fromRGBO(0, 153, 76, 1),),
         inactiveIcon: const Icon(Icons.airplane_ticket, color: Colors.white),
         title: "Tickets",
-        activeColorPrimary: CupertinoColors.activeGreen,
+        textStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700
+        ),
+        activeColorPrimary: CupertinoColors.systemTeal,
       ),
 
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.account_circle, color: Color.fromRGBO(0, 153, 76, 1),),
         inactiveIcon: const Icon(Icons.account_circle, color: Colors.white),
         title: "Profile",
-        activeColorPrimary: CupertinoColors.activeGreen,
+        textStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w700
+        ),
+        activeColorPrimary: CupertinoColors.systemTeal,
       ),
 
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.phone, color: Color.fromRGBO(0, 153, 76, 1),),
         inactiveIcon: const Icon(Icons.phone, color: Colors.white),
-        title: "Contact Us",
-        activeColorPrimary: CupertinoColors.white,
+        title: "Contact\nUs",
+        textStyle: const TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w800
+        ),
+        activeColorPrimary: const Color(0xFF0AC8F6),
       ),
     ];
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namma_metro/Pages/color.dart';
 
 LinearGradient lgTop() {
   return const LinearGradient(
@@ -22,48 +23,41 @@ class LoginBorder extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white, Colors.white60],
-        )
+      decoration: BoxDecoration(
+        color: secondary
       ),
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 100,
-              decoration: BoxDecoration(
-                gradient: lgTop(),
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(0),
-                    bottom: Radius.circular(20)
-                ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 100,
+            decoration: BoxDecoration(
+              gradient: lgTop(),
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(0),
+                  bottom: Radius.circular(20)
               ),
             ),
-            const Spacer(),
-            Center(
-              child: Container(
-                color: Colors.transparent,
-                child: cont,
+          ),
+          const Spacer(),
+          Center(
+            child: Container(
+              color: Colors.transparent,
+              child: cont,
+            ),
+          ),
+          const Spacer(),
+          Container(
+            height: 80,
+            decoration: BoxDecoration(
+              gradient: lgTop(),
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                  bottom: Radius.circular(0)
               ),
             ),
-            const Spacer(),
-            Container(
-              height: 80,
-              decoration: BoxDecoration(
-                gradient: lgTop(),
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
-                    bottom: Radius.circular(0)
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

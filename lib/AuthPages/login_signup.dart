@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namma_metro/Pages/color.dart';
 import 'package:namma_metro/Pages/plain_login_borders.dart';
 import 'package:namma_metro/AuthPages/login.dart';
 import 'package:namma_metro/AuthPages/register.dart';
@@ -41,16 +42,16 @@ class LoginSignup extends StatelessWidget{
                     );
                   },
                   icon: const Icon(Icons.account_circle_outlined, size: 30,),
-                  label: const Text(
+                  label: Text(
                     "Login",
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
+                      color: secondary
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-                    // backgroundColor: Colors.transparent
                   ),
                 ),
                 ElevatedButton.icon(
@@ -63,11 +64,12 @@ class LoginSignup extends StatelessWidget{
                     );
                   },
                   icon: const Icon(Icons.add_box_outlined, size: 30,),
-                  label: const Text(
+                  label: Text(
                     "Sign Up",
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
+                      color: secondary
                     ),
                   ),
                   style: ElevatedButton.styleFrom(

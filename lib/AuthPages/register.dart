@@ -120,6 +120,7 @@
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    prefixIcon: const Icon(Icons.person)
                                   ),
                                 ),
                               ),
@@ -131,12 +132,13 @@
                                 child: TextField(
                                   controller: emailCtrl,
                                   decoration: InputDecoration(
-                                      labelText: "Email",
-                                      fillColor: Colors.grey.shade100,
-                                      filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      )
+                                    labelText: "Email",
+                                    fillColor: Colors.grey.shade100,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    prefixIcon: const Icon(Icons.email)
                                   ),
                                 ),
                               ),
@@ -149,12 +151,13 @@
                                   controller: passwordCtrl,
                                   obscureText: true,
                                   decoration: InputDecoration(
-                                      labelText: "Password",
-                                      fillColor: Colors.grey.shade100,
-                                      filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      )
+                                    labelText: "Password",
+                                    fillColor: Colors.grey.shade100,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    prefixIcon: const Icon(Icons.password)
                                   ),
                                 ),
                               ),

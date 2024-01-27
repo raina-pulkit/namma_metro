@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/login_signup.dart';
+import 'package:namma_metro/Pages/color.dart';
 import 'package:namma_metro/Pages/smartcard_recharge.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:namma_metro/Pages/transaction_history.dart';
@@ -89,79 +90,59 @@ class _ProfileMenuState extends State<ProfileMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: const ColorScheme(
-          primary: Colors.blue,
-          secondary: Colors.green,
-          surface: Colors.white,
-          background: Colors.white,
-          error: Colors.red,
-          onPrimary: Colors.white,
-          onSecondary: Colors.black,
-          onSurface: Colors.black,
-          onBackground: Colors.black,
-          onError: Colors.white,
-          brightness: Brightness.light,
-        ),
-        textTheme: const TextTheme(
-          labelSmall: TextStyle(
-            decoration: TextDecoration.none
-          )
-        ),
-      ),
-      home: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: const Color.fromRGBO(255, 255, 255, 0.4),
-        child: Column(
-          children: [
-            CustomTopAppBar(text: "Profile Menu", show: false, context: context),
-            Container(
-              margin: const EdgeInsets.only(top: 50, left: 20, right: 20),
-              height: 500,
-              width: 300,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(25)),
-                color: Colors.grey,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3), // changes the position of the shadow
-                  ),
-                ],
-              ),
-              child: Builder(
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      color: primary,
+      child: Column(
+        children: [
+          CustomTopAppBar(text: "Profile Menu", show: false, context: context),
+          Container(
+            margin: const EdgeInsets.only(top: 50, left: 20, right: 20),
+            height: 500,
+            width: 300,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(25)),
+              color: Colors.grey,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3), // changes the position of the shadow
+                ),
+              ],
+            ),
+            child: Builder(
                 builder: (context) {
                   return ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
 
-                    itemCount: 5,
-                    itemBuilder: (context, index){
-                      return GestureDetector(
-                        onTap: () async => await PersistentNavBarNavigator.pushNewScreen(
-                          context,
-                          screen: page[index]
-                        ),
-                        child: listItem(profile[index]),
-                      );
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(height: 20,)
+                      itemCount: 5,
+                      itemBuilder: (context, index){
+                        return GestureDetector(
+                          onTap: () async => await PersistentNavBarNavigator.pushNewScreen(
+                              context,
+                              screen: page[index]
+                          ),
+                          child: listItem(profile[index]),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(height: 20,)
                   );
                 }
-              ),
             ),
-            const SizedBox(height: 25,),
-            ElevatedButton(
+          ),
+          const SizedBox(height: 25,),
+          ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: const Color.fromRGBO(0, 0, 0, 0.7),
                 elevation: 5,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15), // Rounded corners
+                  borderRadius: BorderRadius.circular(15),
                 ),
+                shadowColor: secondary,
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20), // Button padding
               ),
               onPressed: () {
@@ -175,17 +156,17 @@ class _ProfileMenuState extends State<ProfileMenu> {
                           title: Text(
                             "Logout Confirmation",
                             style: GoogleFonts.rajdhani(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontWeight: FontWeight.w700
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w700
                             ),
                           ),
                           content: Text(
                             "Are you sure you want to log out?",
                             style: GoogleFonts.rajdhani(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20
                             ),
                           ),
                           actions: <Widget>[
@@ -196,9 +177,9 @@ class _ProfileMenuState extends State<ProfileMenu> {
                               child: Text(
                                 "No",
                                 style: GoogleFonts.rajdhani(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700
                                 ),
                               ),
                             ),
@@ -222,9 +203,9 @@ class _ProfileMenuState extends State<ProfileMenu> {
                               child: Text(
                                 "Yes",
                                 style: GoogleFonts.rajdhani(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700
                                 ),
                               ),
                             ),
@@ -237,13 +218,12 @@ class _ProfileMenuState extends State<ProfileMenu> {
               child: Text(
                 "Log Out",
                 style: GoogleFonts.rajdhani(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w800
+                    fontSize: 23,
+                    fontWeight: FontWeight.w800
                 ),
               )
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/login_signup.dart';
+import 'package:namma_metro/Pages/color.dart';
 import 'Pages/peristent_bottom_nav_bar.dart';
 
 class LoadingPage extends StatefulWidget{
@@ -19,7 +20,7 @@ class _LoadingPageState extends State<LoadingPage>{
     super.initState();
 
     Future.delayed(
-      const Duration(seconds: 3), () {
+      const Duration(seconds: 1), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -33,6 +34,7 @@ class _LoadingPageState extends State<LoadingPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primary,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -78,7 +80,7 @@ class AnotherPage extends State<_Another_Page>{
     super.initState();
 
     Future.delayed(
-        const Duration(seconds: 4), () {
+        const Duration(seconds: 1), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -98,10 +100,9 @@ class AnotherPage extends State<_Another_Page>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-      ),
+      backgroundColor: primary,
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 100),
         child: Column(
           children: [
             Center(
@@ -132,7 +133,7 @@ class AnotherPage extends State<_Another_Page>{
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20),
               child: Text(
                 "Welcomes you!",
                 style: GoogleFonts.rajdhani(
