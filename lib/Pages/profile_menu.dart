@@ -70,6 +70,23 @@ class _ProfileMenuState extends State<ProfileMenu> {
     const FAQ()
   ];
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _showSnackBar(String message, Color col) {
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        backgroundColor: col,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -116,20 +133,24 @@ class _ProfileMenuState extends State<ProfileMenu> {
                   ),
                 ],
               ),
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+              child: Builder(
+                builder: (context) {
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
 
-                itemCount: 5,
-                itemBuilder: (context, index){
-                  return GestureDetector(
-                    onTap: () async => await PersistentNavBarNavigator.pushNewScreen(
-                      context,
-                      screen: page[index]
-                    ),
-                    child: listItem(profile[index]),
+                    itemCount: 5,
+                    itemBuilder: (context, index){
+                      return GestureDetector(
+                        onTap: () async => await PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          screen: page[index]
+                        ),
+                        child: listItem(profile[index]),
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(height: 20,)
                   );
-                },
-                separatorBuilder: (context, index) => const SizedBox(height: 20,)
+                }
               ),
             ),
             const SizedBox(height: 25,),
@@ -182,15 +203,21 @@ class _ProfileMenuState extends State<ProfileMenu> {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {
-                                FirebaseAuth.instance.signOut();
-                                Navigator.popUntil(context, (route) => route.isFirst);
-                                PersistentNavBarNavigator.pushNewScreen(
-                                  context,
-                                  screen: const LoginSignup(),
-                                  withNavBar: false,
-                                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                                );
+                              onPressed: () async {
+                                try{
+                                  await FirebaseAuth.instance.signOut().then((res) {
+                                    Navigator.popUntil(context, (route) => route.isFirst);
+                                    PersistentNavBarNavigator.pushNewScreen(
+                                      context,
+                                      screen: const LoginSignup(),
+                                      withNavBar: false,
+                                      pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                    );
+                                  });
+                                }
+                                catch(e){
+                                  _showSnackBar("Couldn't Log Out, try again! ${e.toString()}", Colors.red);
+                                }
                               },
                               child: Text(
                                 "Yes",
