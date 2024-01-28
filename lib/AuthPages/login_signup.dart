@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:namma_metro/Templates/plain_login_borders.dart';
+import 'package:namma_metro/Pages/color.dart';
+import 'package:namma_metro/AuthPages/plain_login_borders.dart';
 import 'package:namma_metro/AuthPages/login.dart';
 import 'package:namma_metro/AuthPages/register.dart';
-
-void main() => runApp(const LoginSignup());
+import '../Pages/peristent_bottom_nav_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginSignup extends StatelessWidget{
   const LoginSignup({super.key});
 
   @override
   Widget build(BuildContext context) {
+    if(FirebaseAuth.instance.currentUser != null) return const PersistentNavBar();
+
     Container c = Container(
       height: 500,
       padding: EdgeInsets.zero,
@@ -38,38 +41,49 @@ class LoginSignup extends StatelessWidget{
                       ),
                     );
                   },
-                  icon: const Icon(Icons.account_circle_outlined, size: 30,),
-                  label: const Text(
+                  icon: Icon(
+                    Icons.account_circle_outlined,
+                    size: 30,
+                    color: secondary,
+                  ),
+                  label: Text(
                     "Login",
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
+                      color: secondary
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-                    // backgroundColor: Colors.transparent
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 35
+                    ),
                   ),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const RegisterPage(),
                       ),
                     );
                   },
-                  icon: const Icon(Icons.add_box_outlined, size: 30,),
-                  label: const Text(
+                  icon: Icon(Icons.add_box_outlined, size: 30, color: secondary,),
+                  label: Text(
                     "Sign Up",
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
+                      color: secondary
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 30,
+                    ),
                   ),
                 ),
               ],

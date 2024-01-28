@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,9 +19,13 @@ LinearGradient lgTop() {
 
 class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
   final String text;
+  final bool show;
+  final BuildContext context;
 
   const CustomTopAppBar({super.key,
     required this.text,
+    required this.show,
+    required this.context,
   });
 
   @override
@@ -40,13 +42,11 @@ class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
+            show? SizedBox(
               height: 45,
               width: 45,
               child: ElevatedButton(
-                  onPressed: () {
-                  stdout.write("Hello");
-                  },
+                onPressed: () => Navigator.pop(this.context),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size.zero,
                   padding: EdgeInsets.zero,
@@ -60,7 +60,7 @@ class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
                   color: Colors.white,
                 ),
               ),
-            ),
+            ): const SizedBox(height: 45, width: 45,),
             Container(
               margin: const EdgeInsets.only(left: 20),
               child: Text(
@@ -69,6 +69,7 @@ class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
                   fontSize: 23,
                   fontWeight: FontWeight.w800,
                   color: Colors.white,
+                  decoration: TextDecoration.none
                 ),
               ),
             ),
