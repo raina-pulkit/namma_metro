@@ -13,7 +13,6 @@ import 'package:namma_metro/Pages/Home/train.dart';
 import 'package:namma_metro/Pages/Profile_Menu/smartcard_recharge.dart';
 import 'package:namma_metro/Pages/color.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
-
 import '../Metro_Lines/metro_lines.dart';
 import 'beach.dart';
 import '../Ticket_Booking/book_qr_ticket.dart';
