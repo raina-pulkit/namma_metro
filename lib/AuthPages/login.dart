@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +16,7 @@ class PasswordField extends StatefulWidget {
   const PasswordField({Key? key, required this.controller}) : super(key: key);
 
   @override
-  _PasswordFieldState createState() => _PasswordFieldState();
+  State<PasswordField> createState() => _PasswordFieldState();
 }
 
 class _PasswordFieldState extends State<PasswordField> {
@@ -50,63 +48,6 @@ class _PasswordFieldState extends State<PasswordField> {
   }
 }
 
-class GoogleDialogue extends StatefulWidget {
-  const GoogleDialogue({super.key});
-
-  @override
-  State<GoogleDialogue> createState() => _MyInputDialogState();
-}
-
-class _MyInputDialogState extends State<GoogleDialogue> {
-  final TextEditingController _inputController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    TextEditingController phNoCtrl = TextEditingController();
-    TextEditingController userNameCtrl = TextEditingController();
-
-    return SizedBox(
-      height: double.infinity, width: double.infinity,
-      child: AlertDialog(
-        title: const Text('Enter Your Input'),
-        content: Column(
-          children: [
-            TextField(
-              controller: userNameCtrl,
-              decoration: InputDecoration(
-                  labelText: "User Name",
-                  fillColor: Colors.grey.shade100,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  prefixIcon: const Icon(Icons.email)
-              ),
-            ),
-            const SizedBox(height: 15,),
-            TextField(
-              controller: phNoCtrl,
-              decoration: InputDecoration(
-                  labelText: "Phone Number",
-                  fillColor: Colors.grey.shade100,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  prefixIcon: const Icon(Icons.email)
-              ),
-            ),
-            const SizedBox(height: 15,),
-          ],
-        ),
-        actions: [
-
-        ],
-      ),
-    );
-  }
-}
-
 class Login extends StatefulWidget{
   const Login({Key? key}) : super(key: key);
 
@@ -120,6 +61,8 @@ class _MyLoginState extends State<Login>{
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  get defImg => "https://firebasestorage.googleapis.com/v0/b/namma-metro-36b56.appspot.com/o/images%2Fprofile_pic.png?alt=media&token=b7771536-f13e-4c68-af84-8dc013dfdb5f";
+
   void authUser() async{
     String email = emailCtrl.text.trim();
     String password = passCtrl.text.trim();
@@ -132,7 +75,7 @@ class _MyLoginState extends State<Login>{
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
-        ).then((result){
+        ).then((result) async {
           if(result.user != null){
             Navigator.popUntil(context, (route) => route.isFirst);
             Navigator.pushReplacement(
@@ -151,6 +94,7 @@ class _MyLoginState extends State<Login>{
   }
 
   void signInWithGoogle() async {
+    await GoogleSignIn().signOut();
 
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -170,27 +114,70 @@ class _MyLoginState extends State<Login>{
         if(result.user != null){
           String? email = result.user?.email;
           String? uid = result.user?.uid;
+          String? userName = result.user!.displayName;
+          DocumentSnapshot snap = await FirebaseFirestore.instance.collection('user_details').doc(uid).get();
+          if(!snap.exists){
+            var data = {
+              'email': email,
+              'user_name': userName,
+            };
+            await FirebaseFirestore.instance.collection('users').doc(uid)
+            .set(data)
+            .then((res) async{
+              Map<String, dynamic> data2= {
+                'user_id': uid,
+                "address": "`",
+                "age": -1,
+                "phone_number": -1,
+                "profile_pic": defImg
+              };
 
-          await FirebaseFirestore.instance.collection('users').doc(uid)
-          .set({
-            'Email': email,
-            'Phone_Number': -1,
-            'User_Name': "N/A",
-          }).then((res) {
-            Navigator.popUntil(
-              context,
-              (route) => route.isFirst,
-            );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PersistentNavBar(),
-              ),
-            );
-          });
+              await FirebaseFirestore.instance.collection("user_details").doc(uid)
+              .set(data2)
+              .then((res) {
+                Navigator.popUntil(
+                  context,
+                  (route) => route.isFirst,
+                );
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PersistentNavBar(),
+                  ),
+                );
+              });
+            });
+          }
+          else{
+            Future.delayed(Duration.zero).then((res) {
+              Navigator.popUntil(
+                context,
+                    (route) => route.isFirst,
+              );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PersistentNavBar(),
+                ),
+              );
+            });
+          }
+        }
+        else{
+          Navigator.popUntil(
+            context,
+            (route) => route.isFirst,
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const PersistentNavBar(),
+            ),
+          );
         }
       });
     }
+
     on FirebaseAuthException catch(exception){
       _showSnackBar(exception.message ?? "An error occurred! Please try again!");
     }
@@ -388,12 +375,17 @@ class _MyLoginState extends State<Login>{
                     padding: const EdgeInsets.all(8),
                     backgroundColor: Colors.transparent,
                   ),
-                  child: SvgPicture.asset(
-                    'images/left-arrow.svg',
-                    semanticsLabel: 'Left Arrow',
-                    height: 30,
-                    width: 30,
-                    color: Colors.white,
+                  child: ColorFiltered(
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn
+                    ),
+                    child: SvgPicture.asset(
+                      'images/left-arrow.svg',
+                      semanticsLabel: 'Left Arrow',
+                      height: 30,
+                      width: 30,
+                    ),
                   ),
                 ),
               ),

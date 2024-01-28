@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,8 +70,9 @@ class _ListBuilder{
 }
 
 class _AccountState extends State<Account> {
-  final String profile_pic = "images/profile_pic.png";
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  get defImg => "https://firebasestorage.googleapis.com/v0/b/namma-metro-36b56.appspot.com/o/images%2Fprofile_pic.png?alt=media&token=b7771536-f13e-4c68-af84-8dc013dfdb5f";
 
   void _showSnackBar(String message, Color col) {
     ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
@@ -164,12 +164,50 @@ class _AccountState extends State<Account> {
     );
   }
 
-  Map<String, String> getUserData(){
-    User? user = FirebaseAuth.instance.currentUser;
-    String? userId = user?.uid;
+  late Future<Map<String, dynamic>> mpp;
+  @override
+  void initState(){
+    super.initState();
+    mpp = getUserData();
+  }
 
-    log(userId as String);
-    return {"":""};
+  Future<Map<String, dynamic>> getUserData() async{
+    try{
+      var id = FirebaseAuth.instance.currentUser!.uid;
+      DocumentSnapshot res1 = await _fs
+          .collection("users")
+          .doc(id)
+          .get();
+
+      DocumentSnapshot res2 = await _fs
+          .collection("user_details")
+          .doc(id)
+          .get();
+
+
+      Map<String, dynamic>? data1 = res1.data() as Map<String, dynamic>?;
+      Map<String, dynamic>? data2 = res2.data() as Map<String, dynamic>?;
+
+      return {
+        "user_name": data1?['user_name'] ?? "Profile",
+        "email": data1?['email'] ?? "genericemail@gmail.com",
+        "address": data2?['address'] ?? "",
+        "profile_pic": data2?['profile_pic'] ?? defImg,
+        "age": data2?['age'] ?? -1,
+        "phone_number": data2?['phone_number'] ?? -1,
+      };
+    }
+    catch(e){
+
+      return {
+        'user_name': 'Profile',
+        'email': 'genericemail@gmail.com',
+        'address': '',
+        'profilePic': defImg,
+        'age': -1,
+        "phone_number": -1,
+      };
+    }
   }
 
   @override
@@ -182,97 +220,134 @@ class _AccountState extends State<Account> {
         show: true,
         context: context,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                // margin: const EdgeInsets.only(top: 10),
-                width: 120, height: 120,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(profile_pic)
-                ),
-              ),
-              const SizedBox(height: 10,),
-              Text(
-                "Pulkit Raina",
-                style: GoogleFonts.rajdhani(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Text(
-                "pulkitraina2608@gmail.com",
-                style: GoogleFonts.rajdhani(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  fontStyle: FontStyle.italic
-                ),
-              ),
-              const SizedBox(height: 20,),
-              ElevatedButton(
-                onPressed: (){
-                  PersistentNavBarNavigator.pushNewScreen(
-                      context,
-                      screen: const EditProfile(),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(327, 50),
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  elevation: 1,
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: mpp,
+        builder: (context, snapShot) {
+          if(snapShot.connectionState == ConnectionState.waiting){
+            return const CircularProgressIndicator();
+          }
+          else if(snapShot.hasError){
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Error",
+                    style: GoogleFonts.rajdhani(
+                      fontSize: 50,
+                      fontWeight: FontWeight.w800,
+                    ),
                   )
-                ),
-                child: Text(
-                  "Edit Profile",
-                  style: GoogleFonts.rajdhani(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20
-                  ),
+                ],
+              ),
+            );
+          }
+          else{
+            Map<String, dynamic> data = snapShot.data ?? {
+              "user_name": "Profile",
+              "email": "genericemail@gmail.com",
+              "address": "`",
+              "profile_pic": defImg,
+              "age": -1,
+              "phone_number": -1
+            };
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Center(
+                child: Column(
+                  children: [
+                    Container(
+                      // margin: const EdgeInsets.only(top: 10),
+                      width: 120, height: 120,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.network(data["profile_pic"])
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    Text(
+                      "${data["user_name"]}",
+                      style: GoogleFonts.rajdhani(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      "${data["email"]}",
+                      style: GoogleFonts.rajdhani(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
+                    ElevatedButton(
+                      onPressed: (){
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          screen: EditProfile(mpp: data),
+                        );
+                        setState(() {
+
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(327, 50),
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                          elevation: 1,
+                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          )
+                      ),
+                      child: Text(
+                        "Edit Profile",
+                        style: GoogleFonts.rajdhani(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
+                    const Divider(),
+                    const SizedBox(height: 10,),
+                    _ListBuilder(
+                        data: "Age: ${data["age"]==-1?'N/A':data["age"]}",
+                        leadIcon: Icons.account_box_outlined,
+                        trailIcon: false,
+                        onTap: (){}
+                    ).buildListTile(),
+                    _ListBuilder(
+                        data: "Address",
+                        leadIcon: Icons.map,
+                        onTap: (){}
+                    ).buildListTile(),
+                    _ListBuilder(
+                        data: "Metro Cards",
+                        leadIcon: Icons.credit_card,
+                        onTap: (){}
+                    ).buildListTile(),
+                    _ListBuilder(
+                      data: "Log Out",
+                      leadIcon: Icons.logout,
+                      col: Colors.red,
+                      onTap: signOut,
+                    ).buildListTile(),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20,),
-              const Divider(),
-              const SizedBox(height: 10,),
-              _ListBuilder(
-                data: "Age: 23",
-                leadIcon: Icons.account_box_outlined,
-                trailIcon: false,
-                onTap: (){}
-              ).buildListTile(),
-              _ListBuilder(
-                data: "Address",
-                leadIcon: Icons.map,
-                onTap: (){}
-              ).buildListTile(),
-              _ListBuilder(
-                data: "Metro Cards",
-                leadIcon: Icons.credit_card,
-                onTap: (){}
-              ).buildListTile(),
-              _ListBuilder(
-                data: "Log Out",
-                leadIcon: Icons.logout,
-                col: Colors.red,
-                onTap: signOut,
-              ).buildListTile(),
-            ],
-          ),
-        ),
+            );
+          }
+        },
       ),
     );
   }

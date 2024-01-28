@@ -61,76 +61,90 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         body: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.25, right: 25, left: 25),
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height*0.25,
+                  right: 25,
+                  left: 25
+              ),
               child: Builder(
-                  builder: (context){
-                    return Material(
-                      color: Colors.transparent,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: TextField(
-                              controller: emailCtrl,
-                              decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  fillColor: Colors.grey.shade100,
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  )
-                              ),
+                builder: (context){
+                  return Material(
+                    color: Colors.transparent,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: TextField(
+                            controller: emailCtrl,
+                            decoration: InputDecoration(
+                                labelText: 'Email',
+                                fillColor: Colors.grey.shade100,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )
                             ),
                           ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.popUntil(context, (route) => route.isFirst);
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const RegisterPage(),
-                                      ),
-                                    );
-                                  },
-                                  child: const Text(
-                                    "Sign Up",
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      fontSize: 20,
-                                      color: Color(0xff4c505b),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.popUntil(
+                                    context,
+                                    (route) => route.isFirst
+                                  );
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const RegisterPage(),
                                     ),
-                                  )
-                              ),
-                              Row(
-                                children: [
-                                  const Text(
-                                    "Reset Password",
-                                    style: TextStyle(
-                                      color: Color(0xff4c505b),
-                                      fontSize: 20, fontWeight: FontWeight.w700,
-                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    fontSize: 20,
+                                    color: Color(0xff4c505b),
                                   ),
-                                  const SizedBox(width: 10,),
-                                  CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: const Color(0xff4c505b),
-                                    child: IconButton(onPressed: passwordReset, icon: const Icon(Icons.arrow_forward, color: Colors.white,)),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  }
+                                )
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Reset Password",
+                                  style: TextStyle(
+                                    color: Color(0xff4c505b),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(width: 10,),
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: const Color(0xff4c505b),
+                                  child: IconButton(
+                                    onPressed: passwordReset,
+                                    icon: const Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                    )
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }
               ),
             ),
           ),

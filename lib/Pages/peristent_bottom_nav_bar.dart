@@ -1,11 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:namma_metro/Pages/Profile_Menu/profile_menu.dart';
 import 'package:namma_metro/Pages/tickets2.dart';
 import 'package:namma_metro/Pages/Home/home.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import '../firebase_options.dart';
 import 'Contact_Us/contact_us.dart';
 
 LinearGradient lgBtm() {
@@ -23,13 +21,6 @@ LinearGradient lgBtm() {
   );
 }
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const PersistentNavBar());
-}
 
 class PersistentNavBar extends StatefulWidget {
   const PersistentNavBar({super.key});
@@ -50,7 +41,7 @@ class _PersistentNavBarState extends State<PersistentNavBar> {
     final List<Widget> screens = [
       Builder(
         builder: (context) {
-          return const HomePage();
+          return HomePage();
         }
       ),
       Builder(

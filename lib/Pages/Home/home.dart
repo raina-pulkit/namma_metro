@@ -1,29 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/Pages/Home/palette.dart';
 import 'package:namma_metro/Pages/Home/pizza.dart';
-import 'package:namma_metro/Pages/Home/plan_your_journey.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/plan_your_journey.dart';
 import 'package:namma_metro/Pages/Home/run.dart';
 import 'package:namma_metro/Pages/Home/station_facilities.dart';
 import 'package:namma_metro/Pages/Home/time_table.dart';
-import 'package:namma_metro/Pages/Home/top_up.dart';
 import 'package:namma_metro/Pages/Home/tour_guide.dart';
 import 'package:namma_metro/Pages/Home/train.dart';
+import 'package:namma_metro/Pages/Profile_Menu/smartcard_recharge.dart';
 import 'package:namma_metro/Pages/color.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 
 import '../Metro_Lines/metro_lines.dart';
 import 'beach.dart';
-import 'book_qr_ticket.dart';
+import '../Ticket_Booking/book_qr_ticket.dart';
 import 'evacuation_guidelines.dart';
-import 'fare_calculator.dart';
+import '../Ticket_Booking/fare_calculator.dart';
 import 'first_last_metro.dart';
 import 'lost_found.dart';
 import 'other_info.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -33,42 +36,88 @@ class _HomePageState extends State<HomePage> {
   double boxHeight = 150.0; // Declare boxHeight as a class member
   double spacingBetweenBoxes = 20.0; // Set your desired spacing
 
-  dynamic userName;
+  late final Future<String> userName;
+
+  @override
+  void initState() {
+    super.initState();
+    userName = getData();
+  }
+
+  Future<String> getData() async{
+    try{
+      DocumentSnapshot res = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      Map<String, dynamic>? data = res.data() as Map<String, dynamic>?;
+      return data?["user_name"] ?? "";
+    }
+    catch(e){
+      return "Again";
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+
     double screenWidth = MediaQuery.of(context).size.width;
     double boxWidthPercentage = 0.8; // Set your desired percentage
 
     double boxWidth = screenWidth * boxWidthPercentage;
 
-    return Scaffold(
-      backgroundColor: primary,
-      appBar: CustomTopAppBar(
-        text: "Welcome,\nPulkit Raina!",
-        show: false,
-        context: context,
-      ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20,),
-                _buildIconBox1(boxWidth, boxHeight),
-                SizedBox(height: spacingBetweenBoxes),
-                _buildIconBox2(boxWidth, boxHeight),
-                SizedBox(height: spacingBetweenBoxes),
-                _buildIconBox3(boxWidth, boxHeight),
-                SizedBox(height: spacingBetweenBoxes),
-                _buildIconBox4(boxWidth, boxHeight),
-                // Add other widgets below the icon boxes if needed
-              ],
-            ),
-          ]
-        ),
-      ),
+    return FutureBuilder<String>(
+        future: userName,
+        builder: (context, snapShot){
+          if(snapShot.connectionState == ConnectionState.waiting){
+            return const Center(
+              child: SizedBox(
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          else if(snapShot.hasError){
+            return Text("Error: ${snapShot.error}");
+          }
+          else{
+            String userName = snapShot.data ?? "again";
+
+            return Scaffold(
+              backgroundColor: primary,
+              appBar: CustomTopAppBar(
+                text: "Welcome,\n$userName!",
+                show: false,
+                context: context,
+              ),
+              body: SingleChildScrollView(
+                child: Stack(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 20,),
+                          _buildIconBox1(boxWidth, boxHeight),
+                          SizedBox(height: spacingBetweenBoxes),
+                          _buildIconBox2(boxWidth, boxHeight),
+                          SizedBox(height: spacingBetweenBoxes),
+                          _buildIconBox3(boxWidth, boxHeight),
+                          SizedBox(height: spacingBetweenBoxes),
+                          _buildIconBox4(boxWidth, boxHeight),
+                          // Add other widgets below the icon boxes if needed
+                        ],
+                      ),
+                    ]
+                ),
+              ),
+            );
+
+          }
+        }
     );
   }
 
@@ -99,7 +148,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const TopUP()
+              builder: (context) => const SmartCardRecharge()
             )
           );
         }),

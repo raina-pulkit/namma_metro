@@ -41,7 +41,11 @@ class LoginSignup extends StatelessWidget{
                       ),
                     );
                   },
-                  icon: const Icon(Icons.account_circle_outlined, size: 30,),
+                  icon: Icon(
+                    Icons.account_circle_outlined,
+                    size: 30,
+                    color: secondary,
+                  ),
                   label: Text(
                     "Login",
                     style: TextStyle(
@@ -51,7 +55,10 @@ class LoginSignup extends StatelessWidget{
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 35
+                    ),
                   ),
                 ),
                 ElevatedButton.icon(
@@ -63,7 +70,7 @@ class LoginSignup extends StatelessWidget{
                       ),
                     );
                   },
-                  icon: const Icon(Icons.add_box_outlined, size: 30,),
+                  icon: Icon(Icons.add_box_outlined, size: 30, color: secondary,),
                   label: Text(
                     "Sign Up",
                     style: TextStyle(
@@ -73,7 +80,10 @@ class LoginSignup extends StatelessWidget{
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 30,
+                    ),
                   ),
                 ),
               ],
