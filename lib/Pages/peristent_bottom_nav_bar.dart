@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:namma_metro/Pages/Profile_Menu/profile_menu.dart';
 import 'package:namma_metro/Pages/Search/search_list.dart';
 import 'package:namma_metro/Pages/Ticket_Booking/plan_your_journey.dart';
-import 'package:namma_metro/Pages/tickets2.dart';
 import 'package:namma_metro/Pages/Home/home.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'Contact_Us/contact_us.dart';
