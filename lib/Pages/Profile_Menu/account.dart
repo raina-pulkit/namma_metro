@@ -1,14 +1,17 @@
 import 'dart:developer';
 import 'dart:ui';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import '../AuthPages/login_signup.dart';
-import 'color.dart';
+import '../../AuthPages/login_signup.dart';
+import '../color.dart';
 import 'edit_profile.dart';
+
+final _fs = FirebaseFirestore.instance;
+final user = FirebaseAuth.instance;
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -161,8 +164,17 @@ class _AccountState extends State<Account> {
     );
   }
 
+  Map<String, String> getUserData(){
+    User? user = FirebaseAuth.instance.currentUser;
+    String? userId = user?.uid;
+
+    log(userId as String);
+    return {"":""};
+  }
+
   @override
   Widget build(BuildContext context) {
+    getUserData();
     return Scaffold(
       backgroundColor: primary,
       appBar: CustomTopAppBar(

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/register.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../Pages/peristent_bottom_nav_bar.dart';
-import '../Pages/square_tile.dart';
+import 'square_tile.dart';
 import 'forgot_password.dart';
 import 'login_signup.dart';
 
@@ -49,6 +50,62 @@ class _PasswordFieldState extends State<PasswordField> {
   }
 }
 
+class GoogleDialogue extends StatefulWidget {
+  const GoogleDialogue({super.key});
+
+  @override
+  State<GoogleDialogue> createState() => _MyInputDialogState();
+}
+
+class _MyInputDialogState extends State<GoogleDialogue> {
+  final TextEditingController _inputController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController phNoCtrl = TextEditingController();
+    TextEditingController userNameCtrl = TextEditingController();
+
+    return SizedBox(
+      height: double.infinity, width: double.infinity,
+      child: AlertDialog(
+        title: const Text('Enter Your Input'),
+        content: Column(
+          children: [
+            TextField(
+              controller: userNameCtrl,
+              decoration: InputDecoration(
+                  labelText: "User Name",
+                  fillColor: Colors.grey.shade100,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: const Icon(Icons.email)
+              ),
+            ),
+            const SizedBox(height: 15,),
+            TextField(
+              controller: phNoCtrl,
+              decoration: InputDecoration(
+                  labelText: "Phone Number",
+                  fillColor: Colors.grey.shade100,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: const Icon(Icons.email)
+              ),
+            ),
+            const SizedBox(height: 15,),
+          ],
+        ),
+        actions: [
+
+        ],
+      ),
+    );
+  }
+}
 
 class Login extends StatefulWidget{
   const Login({Key? key}) : super(key: key);
@@ -72,16 +129,20 @@ class _MyLoginState extends State<Login>{
     }
     else{
       try{
-        UserCredential uc = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-        if(uc.user != null){
-          Navigator.popUntil(context, (route) => route.isFirst);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const PersistentNavBar(),
-            ),
-          );
-        }
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        ).then((result){
+          if(result.user != null){
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PersistentNavBar(),
+              ),
+            );
+          }
+        });
       }
       on FirebaseAuthException catch(exception){
         _showSnackBar(exception.message ?? "An error occurred");
@@ -90,6 +151,7 @@ class _MyLoginState extends State<Login>{
   }
 
   void signInWithGoogle() async {
+
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -104,20 +166,36 @@ class _MyLoginState extends State<Login>{
 
     try{
       await FirebaseAuth.instance.signInWithCredential(credential)
-      .then((result) {
+      .then((result) async{
         if(result.user != null){
-          Navigator.popUntil(context, (route) => route.isFirst);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const PersistentNavBar(),
-            ),
-          );
+          String? email = result.user?.email;
+          String? uid = result.user?.uid;
+
+          await FirebaseFirestore.instance.collection('users').doc(uid)
+          .set({
+            'Email': email,
+            'Phone_Number': -1,
+            'User_Name': "N/A",
+          }).then((res) {
+            Navigator.popUntil(
+              context,
+              (route) => route.isFirst,
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PersistentNavBar(),
+              ),
+            );
+          });
         }
       });
     }
     on FirebaseAuthException catch(exception){
       _showSnackBar(exception.message ?? "An error occurred! Please try again!");
+    }
+    catch(e){
+      _showSnackBar(e.toString());
     }
   }
 
@@ -146,8 +224,6 @@ class _MyLoginState extends State<Login>{
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PersistentNavBar()));
       return const PersistentNavBar();
     }
-
-    bool _obsure = true;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

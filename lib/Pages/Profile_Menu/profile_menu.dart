@@ -10,7 +10,7 @@ import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:namma_metro/Pages/transaction_history.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'account.dart';
-import 'faq.dart';
+import '../faq.dart';
 import 'my_tickets.dart';
 
 class ProfileMenu extends StatefulWidget {

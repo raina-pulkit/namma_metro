@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,6 +20,7 @@ import 'package:namma_metro/AuthPages/login_signup.dart';
     TextEditingController userNameCtrl = TextEditingController();
     TextEditingController emailCtrl = TextEditingController();
     TextEditingController passwordCtrl = TextEditingController();
+    TextEditingController phNoCtrl = TextEditingController();
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -26,23 +28,40 @@ import 'package:namma_metro/AuthPages/login_signup.dart';
       String userName = userNameCtrl.text;
       String email = emailCtrl.text.trim();
       String password = passwordCtrl.text.trim();
+      String phNoStr = phNoCtrl.text.trim();
+      if(phNoStr.length != 10){
+        _showSnackBar("Please fill all details", Colors.red);
+        return;
+      }
 
-      if((password == "") || (email == "") || (userName == "")){
+      int phNo = int.parse(phNoStr);
+
+      if((password == "") || (email == "") || (userName == "") || (phNo == 0)){
         _showSnackBar("Please fill all details", Colors.red);
       }
       else{
         try{
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: email,
-              password: password
-          ).then((result) {
+            password: password,
+            email: email,
+          ).then((result) async {
             if(result.user != null){
-              FirebaseAuth.instance.signOut();
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginSignup()),
-              );
+              User? u = FirebaseAuth.instance.currentUser;
+              String? user_id = u!.uid;
+              await FirebaseFirestore.instance.collection('users')
+                .doc(user_id)
+                .set({
+                  'Email': email,
+                  'Phone_Number': phNo,
+                  'User_Name': userName,
+              }).then((value) {
+                FirebaseAuth.instance.signOut();
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginSignup()),
+                );
+              });
             }
           });
         }
@@ -100,8 +119,7 @@ import 'package:namma_metro/AuthPages/login_signup.dart';
 
               SingleChildScrollView(
                 child: Container(
-                  height: 500,
-                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3),
+                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.25),
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.1, right: 35, left: 35),
                   child: Builder(
                       builder: (context) {
@@ -125,7 +143,7 @@ import 'package:namma_metro/AuthPages/login_signup.dart';
                                 ),
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 15,
                               ),
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 10),
@@ -143,14 +161,30 @@ import 'package:namma_metro/AuthPages/login_signup.dart';
                                 ),
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 15,
                               ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                child: TextField(
+                                  controller: phNoCtrl,
+                                  decoration: InputDecoration(
+                                      labelText: "Phone Number",
+                                      fillColor: Colors.grey.shade100,
+                                      filled: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      prefixIcon: const Icon(Icons.dialpad)
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 15),
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 10),
                                 child: PasswordField(controller: passwordCtrl,),
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

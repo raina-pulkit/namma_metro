@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/Pages/color.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import '../AuthPages/login_signup.dart';
+import '../../AuthPages/login_signup.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
