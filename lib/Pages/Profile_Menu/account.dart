@@ -212,7 +212,6 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
-    getUserData();
     return Scaffold(
       backgroundColor: primary,
       appBar: CustomTopAppBar(

@@ -27,7 +27,8 @@ final Uri _email = Uri(
 final Uri _toll_free = Uri.parse("tel:+91-9113289540");
 
 class ContactPage extends StatefulWidget {
-  const ContactPage({super.key});
+  final bool show;
+  const ContactPage({super.key, required this.show});
 
   @override
   State<ContactPage> createState() => _ContactPageState();
@@ -63,7 +64,7 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomTopAppBar(text: 'Contact Us', show: false, context: context,),
+      appBar: CustomTopAppBar(text: 'Contact Us', show: widget.show, context: context,),
       body: Scaffold(
         backgroundColor: primary,
         extendBody: true,

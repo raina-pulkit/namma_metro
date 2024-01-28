@@ -6,7 +6,7 @@ import 'package:namma_metro/Pages/Home/first_last_metro.dart';
 import 'package:namma_metro/Pages/Ticket_Booking/plan_your_journey.dart';
 import 'package:namma_metro/Pages/Home/station_facilities.dart';
 import 'package:namma_metro/Pages/Home/time_table.dart';
-import 'package:namma_metro/Pages/Profile_Menu/smartcard_recharge.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/smartcard_recharge.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import '../Metro_Lines/metro_lines.dart';
 import 'other_info.dart';
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PlanYourJourney()
+              builder: (context) => const PlanYourJourney(show: true,)
             )
           );
         }),

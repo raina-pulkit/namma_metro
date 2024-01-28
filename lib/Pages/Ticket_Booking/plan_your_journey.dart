@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 
 class PlanYourJourney extends StatefulWidget {
-  const PlanYourJourney({super.key});
+  final bool show;
+  const PlanYourJourney({super.key, required this.show});
 
   @override
   State<PlanYourJourney> createState() => _PlanYourJourneyState();
@@ -345,7 +346,7 @@ class _PlanYourJourneyState extends State<PlanYourJourney> {
     return Scaffold(
       appBar: CustomTopAppBar(
         text: "Plan your journey",
-        show: true,
+        show: widget.show,
         context: context,
       ),
       body: SingleChildScrollView(

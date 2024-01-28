@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:namma_metro/Pages/Profile_Menu/profile_menu.dart';
+import 'package:namma_metro/Pages/Search/search_list.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/plan_your_journey.dart';
 import 'package:namma_metro/Pages/tickets2.dart';
 import 'package:namma_metro/Pages/Home/home.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -41,31 +43,17 @@ class _PersistentNavBarState extends State<PersistentNavBar> {
     final List<Widget> screens = [
       Builder(
         builder: (context) {
-          return HomePage();
+          return const HomePage();
         }
       ),
       Builder(
         builder: (context) {
-          return Center(
-            child: SizedBox(
-              height: 100,
-              width: 100,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await PersistentNavBarNavigator.pushNewScreen(
-                    context,
-                    screen: const Ticket(),
-                  );
-                },
-                child: const Text("Tickets")
-              ),
-            ),
-          );
+          return const SearchList();
         }
       ),
       Builder(
         builder: (context) {
-          return const Text("Tickets");
+          return const PlanYourJourney(show: false,);
         }
       ),
       Builder(
@@ -75,7 +63,7 @@ class _PersistentNavBarState extends State<PersistentNavBar> {
       ),
       Builder(
           builder: (context) {
-            return const ContactPage();
+            return const ContactPage(show: false,);
           }
       ),
     ];

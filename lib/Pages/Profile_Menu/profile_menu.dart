@@ -1,13 +1,13 @@
 import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/AuthPages/login_signup.dart';
 import 'package:namma_metro/Pages/color.dart';
-import 'package:namma_metro/Pages/Profile_Menu/smartcard_recharge.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/smartcard_recharge.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../Ticket_Booking/my_cards.dart';
 import 'account.dart';
 import 'faq.dart';
 import 'my_tickets.dart';
@@ -55,16 +55,16 @@ class _ProfileMenuState extends State<ProfileMenu> {
   final profile = [
     "My Details",
     "Transaction History",
-    "My Tickets",
+    "My Cards",
     "Smart Card \nRecharge",
     "FAQ"
   ];
 
   final page = [
     const Account(),
-    MyTickets(),
-    MyTickets(),
-    SmartCardRecharge(),
+    const MyTickets(),
+    const MyCards(),
+    const SmartCardRecharge(),
     const FAQ()
   ];
 
