@@ -2,25 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:namma_metro/Pages/Home/palette.dart';
-import 'package:namma_metro/Pages/Home/pizza.dart';
+import 'package:namma_metro/Pages/Home/first_last_metro.dart';
 import 'package:namma_metro/Pages/Ticket_Booking/plan_your_journey.dart';
-import 'package:namma_metro/Pages/Home/run.dart';
 import 'package:namma_metro/Pages/Home/station_facilities.dart';
 import 'package:namma_metro/Pages/Home/time_table.dart';
-import 'package:namma_metro/Pages/Home/tour_guide.dart';
-import 'package:namma_metro/Pages/Home/train.dart';
 import 'package:namma_metro/Pages/Profile_Menu/smartcard_recharge.dart';
-import 'package:namma_metro/Pages/color.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import '../Metro_Lines/metro_lines.dart';
-import 'beach.dart';
+import 'other_info.dart';
+import 'tour_guide.dart';
 import '../Ticket_Booking/book_qr_ticket.dart';
 import 'evacuation_guidelines.dart';
 import '../Ticket_Booking/fare_calculator.dart';
-import 'first_last_metro.dart';
 import 'lost_found.dart';
-import 'other_info.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -58,8 +52,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -87,34 +79,30 @@ class _HomePageState extends State<HomePage> {
             String userName = snapShot.data ?? "again";
 
             return Scaffold(
-              backgroundColor: primary,
+              backgroundColor: Colors.white,
               appBar: CustomTopAppBar(
                 text: "Welcome,\n$userName!",
                 show: false,
                 context: context,
               ),
               body: SingleChildScrollView(
-                child: Stack(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 20,),
-                          _buildIconBox1(boxWidth, boxHeight),
-                          SizedBox(height: spacingBetweenBoxes),
-                          _buildIconBox2(boxWidth, boxHeight),
-                          SizedBox(height: spacingBetweenBoxes),
-                          _buildIconBox3(boxWidth, boxHeight),
-                          SizedBox(height: spacingBetweenBoxes),
-                          _buildIconBox4(boxWidth, boxHeight),
-                          // Add other widgets below the icon boxes if needed
-                        ],
-                      ),
-                    ]
+                // padding: EdgeInsets.symmetric(ver),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 20,),
+                    _buildIconBox1(boxWidth, boxHeight),
+                    SizedBox(height: spacingBetweenBoxes),
+                    _buildIconBox2(boxWidth, boxHeight),
+                    SizedBox(height: spacingBetweenBoxes),
+                    _buildIconBox3(boxWidth, boxHeight),
+                    SizedBox(height: spacingBetweenBoxes),
+                    _buildIconBox4(boxWidth, boxHeight),
+                    // Add other widgets below the icon boxes if needed
+                  ],
                 ),
               ),
             );
-
           }
         }
     );
@@ -183,7 +171,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const OtherInfo()
+                builder: (context) => OtherInfo()
             )
           );
         }),
@@ -226,32 +214,46 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildIconBox4(double width, double height) {
-    return _buildIconBox(
-      width,
-      height,
-      'Map',
-      [
-        _buildIconWithLabel(Icons.local_pizza, 'Pizza', () {
-          // Navigate to desired page when icon is clicked
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const PizzaScreen()));
-        }),
-        _buildIconWithLabel(Icons.directions_run, 'Run', () {
-          // Navigate to desired page when icon is clicked
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const RunScreen()));
-        }),
-        _buildIconWithLabel(Icons.palette, 'Palette', () {
-          // Navigate to desired page when icon is clicked
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const PaletteScreen()));
-        }),
-        _buildIconWithLabel(Icons.beach_access, 'Beach', () {
-          // Navigate to desired page when icon is clicked
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const BeachScreen()));
-        }),
-        _buildIconWithLabel(Icons.train, 'Train', () {
-          // Navigate to desired page when icon is clicked
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const TrainScreen()));
-        }),
-      ],
+    return Container(
+      width: width,
+      height: height*2,
+      margin: EdgeInsets.symmetric(
+          horizontal: (MediaQuery.of(context).size.width - width) / 2
+      ),
+      padding: const EdgeInsets.all(16.0),
+      decoration: const BoxDecoration(
+        color: Color(0xFFEEEEEE),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20)
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            offset: Offset(0, 2),
+            blurRadius: 4,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+              "Map",
+              style: GoogleFonts.rajdhani(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+              )
+          ),
+          const SizedBox(height: 12.0),
+          Image.asset(
+            "images/namma_metro_map.png",
+            height: 200,
+            width: 500,
+            fit: BoxFit.cover,
+          ),
+        ],
+      ),
     );
   }
 

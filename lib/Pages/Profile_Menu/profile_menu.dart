@@ -23,17 +23,15 @@ class ProfileMenu extends StatefulWidget {
 class _ProfileMenuState extends State<ProfileMenu> {
   Widget listItem(String s){
     return Container(
-      height: 90,
+      height: 85,
       padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 0),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(topRight: Radius.circular(25), bottomLeft: Radius.circular(25)),
-        gradient: lgBtm(),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(25), bottomLeft: Radius.circular(25)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Color(0xFFEEEEEE),
             spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3), // changes the position of the shadow
+            offset: Offset(0, 3), // changes the position of the shadow
           ),
         ],
       ),
@@ -45,7 +43,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
             style: GoogleFonts.rajdhani(
               fontSize: 30,
               fontWeight: FontWeight.w700,
-              color: Colors.white,
+              color: Colors.black,
               decoration: TextDecoration.none
             ),
           ),
@@ -93,18 +91,19 @@ class _ProfileMenuState extends State<ProfileMenu> {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      color: primary,
+      color: Colors.white,
       child: SingleChildScrollView(
         child: Column(
           children: [
             CustomTopAppBar(text: "Profile Menu", show: false, context: context),
             Container(
-              margin: const EdgeInsets.only(top: 50, left: 20, right: 20),
-              height: 500,
-              width: 300,
+              margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
+              height: 540,
+              width: 400,
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(25)),
-                color: const Color(0xFFEEEEEE),
+                color: primary,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),

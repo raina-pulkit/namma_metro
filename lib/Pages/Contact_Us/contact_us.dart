@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/Pages/color.dart';
@@ -40,9 +38,7 @@ class _ContactPageState extends State<ContactPage> {
 
   Future<void> _launchURL(Uri s) async{
     try{
-      log("Trying");
       await launchUrl(s);
-      log("Done");
     }
     catch(e){
       _showSnackBar("$e \nAn error occurred! Try again!");
