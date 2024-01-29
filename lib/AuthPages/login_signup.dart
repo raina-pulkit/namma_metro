@@ -59,6 +59,7 @@ class LoginSignup extends StatelessWidget{
                         vertical: 15,
                         horizontal: 35
                     ),
+                    backgroundColor: const Color(0xFFEEEEEE),
                   ),
                 ),
                 ElevatedButton.icon(
@@ -84,6 +85,7 @@ class LoginSignup extends StatelessWidget{
                         vertical: 15,
                         horizontal: 30,
                     ),
+                    backgroundColor: const Color(0xFFEEEEEE),
                   ),
                 ),
               ],

@@ -54,7 +54,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
 
   final profile = [
     "My Details",
-    "Transaction History",
+    "Ticket History",
     "My Cards",
     "Smart Card \nRecharge",
     "FAQ"
@@ -102,7 +102,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(25)),
-                color: primary,
+                color: const Color.fromRGBO(120, 100, 175, 0.6),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),

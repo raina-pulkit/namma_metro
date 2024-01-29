@@ -4,7 +4,8 @@ import 'package:namma_metro/Pages/top_app_bar.dart';
 
 class PlanYourJourney extends StatefulWidget {
   final bool show;
-  const PlanYourJourney({super.key, required this.show});
+  final String title;
+  const PlanYourJourney({super.key, required this.show, required this.title});
 
   @override
   State<PlanYourJourney> createState() => _PlanYourJourneyState();
@@ -345,7 +346,7 @@ class _PlanYourJourneyState extends State<PlanYourJourney> {
 
     return Scaffold(
       appBar: CustomTopAppBar(
-        text: "Plan your journey",
+        text: widget.title,
         show: widget.show,
         context: context,
       ),

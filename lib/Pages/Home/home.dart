@@ -11,7 +11,6 @@ import 'package:namma_metro/Pages/top_app_bar.dart';
 import '../Metro_Lines/metro_lines.dart';
 import 'other_info.dart';
 import 'tour_guide.dart';
-import '../Ticket_Booking/book_qr_ticket.dart';
 import 'evacuation_guidelines.dart';
 import '../Ticket_Booking/fare_calculator.dart';
 import 'lost_found.dart';
@@ -119,7 +118,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PlanYourJourney(show: true,)
+              builder: (context) => const PlanYourJourney(title: "Plan your Journey", show: true,)
             )
           );
         }),
@@ -127,7 +126,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BookQRTicket()
+              builder: (context) => const PlanYourJourney(title: "Book QR Ticket", show: true)
             )
           );
         }),

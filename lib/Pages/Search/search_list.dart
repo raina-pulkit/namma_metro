@@ -14,7 +14,6 @@ import 'package:namma_metro/Pages/Ticket_Booking/plan_your_journey.dart';
 import 'package:namma_metro/Pages/Ticket_Booking/smartcard_recharge.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import '../color.dart';
 import '../top_app_bar.dart';
 
 class SearchList extends StatefulWidget {
@@ -73,7 +72,7 @@ class _SearchListState extends State<SearchList> {
   ];
 
   final page = [
-    const PlanYourJourney(show: true),
+    const PlanYourJourney(title: "Plan your journey", show: true),
     const BookQRTicket(),
     const SmartCardRecharge(),
     const FareCalculator(),
@@ -98,7 +97,7 @@ class _SearchListState extends State<SearchList> {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(25)),
-                color: primary,
+                color: const Color.fromRGBO(120, 100, 175, 0.6),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),

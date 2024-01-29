@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namma_metro/AuthPages/register.dart';
+import 'package:namma_metro/Pages/peristent_bottom_nav_bar.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -152,7 +153,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         bottomNavigationBar: Container(
           height: 80,
           decoration: BoxDecoration(
-            gradient: lgTop(),
+            gradient: lgBtm(),
             borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(20),
                 bottom: Radius.circular(0)

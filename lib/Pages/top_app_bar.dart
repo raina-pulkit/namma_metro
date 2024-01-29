@@ -1,21 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-LinearGradient lgTop() {
-  return const LinearGradient(
-    colors: <Color>[
-      Color(0xff1f005c),
-      Color(0xff972f9b),
-      Color(0xff941e70),
-      Color(0xffac255e),
-      Color(0xffca485c),
-      Color(0xffe16b5c),
-      Color(0xfff39060),
-      Color(0xffffb56b),
-    ],
-  );
-}
+import 'package:namma_metro/Pages/peristent_bottom_nav_bar.dart';
 
 class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
   final String text;
@@ -33,8 +19,7 @@ class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
     return Container(
       height: 100,
       decoration: BoxDecoration(
-        gradient: lgTop(),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(0), bottom: Radius.circular(20)),
+        gradient: lgBtm(),
       ),
       padding: const EdgeInsets.only(top: 20),
       child: Container(
@@ -57,7 +42,7 @@ class CustomTopAppBar extends StatelessWidget implements PreferredSizeWidget{
                   semanticsLabel: 'Left Arrow',
                   height: 30,
                   width: 30,
-                  color: Colors.white,
+                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ),
             ): const SizedBox(height: 45, width: 45,),

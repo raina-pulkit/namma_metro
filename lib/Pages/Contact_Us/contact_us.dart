@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:namma_metro/Pages/color.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,7 +65,7 @@ class _ContactPageState extends State<ContactPage> {
     return Scaffold(
       appBar: CustomTopAppBar(text: 'Contact Us', show: widget.show, context: context,),
       body: Scaffold(
-        backgroundColor: primary,
+        backgroundColor: Colors.white,
         extendBody: true,
         key: _scaffoldKey,
         body: Center(
@@ -83,7 +82,7 @@ class _ContactPageState extends State<ContactPage> {
                       height: 200,
                       width: 350,
                       decoration: const BoxDecoration(
-                        color: Color.fromRGBO(200, 200, 200, 0.6),
+                        color: Color(0xFFEEEEEE),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       padding: const EdgeInsets.all(15),

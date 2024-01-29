@@ -150,10 +150,13 @@ class _FareCalculatorState extends State<FareCalculator> {
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
       SnackBar(
-        content: Text(
-          message,
-          style: const TextStyle(
-            fontSize: 16,
+        content: SizedBox(
+          height: 40,
+          child: Text(
+            message,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
           ),
         ),
         backgroundColor: Colors.red,
@@ -162,63 +165,79 @@ class _FareCalculatorState extends State<FareCalculator> {
     );
   }
 
+  void calcFare() {
+    double base = 11;
+    double std = 4;
+    int first = stations.indexOf(selectedDeparture);
+    int second = stations.indexOf(selectedDestination);
+    int r1 = first ~/ 38;
+    int r2 = second ~/ 38;
+    first = first % 39;
+    second = second % 39;
+
+    if(((r1 == 0) && (first == 0)) || ((r2 == 0) && (second == 0))){
+      _showSnackBar("Please choose both stations!");
+    }
+    else if(r1 == r2){
+      double amt = ((first-second).abs()) * std;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Total Fare',
+              style: GoogleFonts.rajdhani(
+                fontSize: 30,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+            content: Text(
+                "Rs. ${(amt > base)?amt: base}",
+                style: GoogleFonts.rajdhani(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600
+                ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    else{
+      double amt = 0;
+      amt += ((first-23).abs()*std);
+      amt += ((second - 12).abs()*std);
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Total Fare'),
+            content: Text("Rs. {($amt > $base)?$amt: $base}"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   Widget buildShowRouteButton() {
     return ElevatedButton(
-      onPressed: () {
-        int first = stations.indexOf(selectedDeparture);
-        int second = stations.indexOf(selectedDestination);
-        int r1 = first ~/ 38;
-        int r2 = second ~/ 38;
-        first = first % 39;
-        second = second % 39;
-
-        if(((r1 == 0) && (first == 0)) || ((r2 == 0) && (second == 0))){
-          _showSnackBar("Please choose both stations!");
-        }
-        else if(r1 == r2){
-          double amt = ((first-second).abs()) * 9.5;
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Total Fare'),
-                content: Text("$amt"),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-        else{
-          double amt = 0;
-          amt += ((first-23).abs()*9.5);
-          amt += ((second - 12).abs()*9.5);
-
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Total Fare'),
-                content: Text("$amt"),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      },
+      onPressed: () => calcFare(),
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF6F60CC), // 6F60CC
       ),
