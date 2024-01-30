@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
-
 import '../color.dart';
 
 class Address extends StatelessWidget {

@@ -77,28 +77,30 @@ class _HomePageState extends State<HomePage> {
           else{
             String userName = snapShot.data ?? "again";
 
-            return Scaffold(
-              backgroundColor: Colors.white,
-              appBar: CustomTopAppBar(
-                text: "Welcome,\n$userName!",
-                show: false,
-                context: context,
-              ),
-              body: SingleChildScrollView(
-                // padding: EdgeInsets.symmetric(ver),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20,),
-                    _buildIconBox1(boxWidth, boxHeight),
-                    SizedBox(height: spacingBetweenBoxes),
-                    _buildIconBox2(boxWidth, boxHeight),
-                    SizedBox(height: spacingBetweenBoxes),
-                    _buildIconBox3(boxWidth, boxHeight),
-                    SizedBox(height: spacingBetweenBoxes),
-                    _buildIconBox4(boxWidth, boxHeight),
-                    // Add other widgets below the icon boxes if needed
-                  ],
+            return MaterialApp(
+              home: Scaffold(
+                backgroundColor: Colors.white,
+                appBar: CustomTopAppBar(
+                  text: "Welcome,\n$userName!",
+                  show: false,
+                  context: context,
+                ),
+                body: SingleChildScrollView(
+                  // padding: EdgeInsets.symmetric(ver),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20,),
+                      _buildIconBox1(boxWidth, boxHeight),
+                      SizedBox(height: spacingBetweenBoxes),
+                      _buildIconBox2(boxWidth, boxHeight),
+                      SizedBox(height: spacingBetweenBoxes),
+                      _buildIconBox3(boxWidth, boxHeight),
+                      SizedBox(height: spacingBetweenBoxes),
+                      _buildIconBox4(boxWidth, boxHeight),
+                      // Add other widgets below the icon boxes if needed
+                    ],
+                  ),
                 ),
               ),
             );

@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/payment.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 
 class SmartCardRecharge extends StatefulWidget {
@@ -14,6 +16,8 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController amountController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  get _fs => FirebaseFirestore.instance;
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
@@ -33,14 +37,50 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
     );
   }
 
+  Future<bool> doesValueExist(String table, String col, String val) async{
+    try{
+      QuerySnapshot<Map<String, dynamic>> qs = await _fs.collection(table)
+      .where(col, isEqualTo: val)
+      .limit(1)
+      .get();
+
+      return qs.docs.isNotEmpty;
+    }
+    catch(e){
+      print("Error occured!\n");
+      return false;
+    }
+  }
+
   void rechargeStart() async{
     String card = cardNumberController.text.trim();
-    int amt = int.parse(amountController.text.trim());
+    double amt = double.parse(amountController.text.trim());
     if((amt < 50) || (amt >= 5000) || (amt%50 != 0)){
       _showSnackBar("Please make sure amount is a multiple of Rs. 50 and between Rs. 50 and Rs. 5000");
       return;
     }
-    
+    await doesValueExist("metro_cards", "metro_card_number", card)
+    .then((exists){
+      if(!exists){
+        _showSnackBar("Card does not exist!");
+        return;
+      }
+      else{
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PaymentInit(
+                                                      amount: amt,
+                                                      source: 'SmartCard',
+                                                      metro_card: card,
+                                                      passedVals: const {
+                                                        "source_station": "station 1",
+                                                        "destination_station": "station 2"
+                                                      },
+                                                    )
+          ),
+        );
+      }
+    });
   }
 
   @override

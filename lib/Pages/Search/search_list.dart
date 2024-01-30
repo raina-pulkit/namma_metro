@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/Pages/Contact_Us/contact_us.dart';
@@ -8,12 +6,10 @@ import 'package:namma_metro/Pages/Home/lost_found.dart';
 import 'package:namma_metro/Pages/Home/time_table.dart';
 import 'package:namma_metro/Pages/Home/tour_guide.dart';
 import 'package:namma_metro/Pages/Metro_Lines/metro_lines.dart';
-import 'package:namma_metro/Pages/Ticket_Booking/book_qr_ticket.dart';
 import 'package:namma_metro/Pages/Ticket_Booking/fare_calculator.dart';
 import 'package:namma_metro/Pages/Ticket_Booking/plan_your_journey.dart';
 import 'package:namma_metro/Pages/Ticket_Booking/smartcard_recharge.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
 import '../top_app_bar.dart';
 
 class SearchList extends StatefulWidget {
@@ -73,7 +69,7 @@ class _SearchListState extends State<SearchList> {
 
   final page = [
     const PlanYourJourney(title: "Plan your journey", show: true),
-    const BookQRTicket(),
+    const PlanYourJourney(title: "Book QR Tickets", show: true,),
     const SmartCardRecharge(),
     const FareCalculator(),
     const TourGuide(),

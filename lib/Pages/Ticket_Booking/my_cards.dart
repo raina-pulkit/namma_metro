@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +16,8 @@ class _MyCardsState extends State<MyCards> {
   final _fa = FirebaseAuth.instance;
   late final String uid;
   final TextEditingController txtCtrl = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   Widget buildAddNewCardButton(){
     return ElevatedButton(
@@ -44,6 +45,7 @@ class _MyCardsState extends State<MyCards> {
                 actions: [
                   ElevatedButton(
                       onPressed: (){
+                        txtCtrl.clear();
                         Navigator.pop(context);
                       },
                       child: Text(
@@ -57,13 +59,25 @@ class _MyCardsState extends State<MyCards> {
                   ElevatedButton(
                       onPressed: () async{
                         String newCard = txtCtrl.text.trim();
-                        await _fs.collection("metro_cards").doc().set({
-                          "user_id": uid,
-                          "metro_card_number": newCard
-                        }).then((res){
-                          Navigator.pop(context);
-                          setState((){});
-                        });
+                        txtCtrl.clear();
+                        if(newCard.length != 10){
+                          _showSnackBar("Card is INVALID", Colors.red);
+                        }
+                        else{
+                          int? x = int.tryParse(newCard);
+                          if(x == null){
+                            _showSnackBar("Card is INVALID", Colors.red);
+                          }
+                          else{
+                            await _fs.collection("metro_cards").doc().set({
+                              "user_id": uid,
+                              "metro_card_number": newCard
+                            }).then((res){
+                              Navigator.pop(context);
+                              setState((){});
+                            });
+                          }
+                        }
                       },
                     child: Text(
                       "Submit",
@@ -137,11 +151,29 @@ class _MyCardsState extends State<MyCards> {
                   res.docs.first.reference.delete()
                   .then((task)  {
                     setState(() {});
-                  }).catchError((e) {log(e.toString());});
+                  }).catchError((e) {;});
                 }
               });
           },
         ),
+      ),
+    );
+  }
+
+  void _showSnackBar(String message, Color col) {
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: SizedBox(
+          height: 60,
+          child: Text(
+            message,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ),
+        backgroundColor: col,
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -155,6 +187,7 @@ class _MyCardsState extends State<MyCards> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomTopAppBar(
         text: "My Smart Cards",
         show: true,
@@ -168,11 +201,11 @@ class _MyCardsState extends State<MyCards> {
               stream: FirebaseFirestore.instance.collection('metro_cards').where("user_id", isEqualTo: uid).snapshots(),
 
               builder: (context, snapshot) {
-                if(snapshot.hasData){
+                if(snapshot.hasData && (snapshot.data != null) && (snapshot.data?.size != 0)){
                   final clients = snapshot.data!.docs.reversed.toList();
                   return ListView.builder(
                     itemCount: clients.length,
-                    shrinkWrap: true, // Add this line
+                    shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final clientWidget = lineMaker(clients[index]['metro_card_number']);
                       return clientWidget;
@@ -180,11 +213,15 @@ class _MyCardsState extends State<MyCards> {
                   );
                 }
                 else{
-                  return const SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                  return Center(
+                    child: SizedBox(
+                      child: Text(
+                        "NO CARDS ADDED YET!",
+                        style: GoogleFonts.rajdhani(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   );
                 }
