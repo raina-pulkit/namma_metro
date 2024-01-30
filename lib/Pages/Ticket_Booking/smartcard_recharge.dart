@@ -47,7 +47,6 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
       return qs.docs.isNotEmpty;
     }
     catch(e){
-      print("Error occured!\n");
       return false;
     }
   }
@@ -71,7 +70,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
           MaterialPageRoute(builder: (context) => PaymentInit(
                                                       amount: amt,
                                                       source: 'SmartCard',
-                                                      metro_card: card,
+                                                      metroCard: card,
                                                       passedVals: const {
                                                         "source_station": "station 1",
                                                         "destination_station": "station 2"

@@ -151,7 +151,7 @@ class _MyCardsState extends State<MyCards> {
                   res.docs.first.reference.delete()
                   .then((task)  {
                     setState(() {});
-                  }).catchError((e) {;});
+                  }).catchError((e) {});
                 }
               });
           },

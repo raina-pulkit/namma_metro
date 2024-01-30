@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final Uri _phone_number = Uri(
+final Uri phoneNumber = Uri(
   scheme: 'tel',
   path: '+919113289540',
 );
@@ -23,7 +23,7 @@ final Uri _email = Uri(
   }),
 );
 
-final Uri _toll_free = Uri.parse("tel:+91-9113289540");
+final Uri tollFree = Uri.parse("tel:+91-9113289540");
 
 class ContactPage extends StatefulWidget {
   final bool show;
@@ -90,7 +90,7 @@ class _ContactPageState extends State<ContactPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            onTap: () => _launchURL(_phone_number),
+                            onTap: () => _launchURL(phoneNumber),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -128,7 +128,7 @@ class _ContactPageState extends State<ContactPage> {
                           ),
 
                           GestureDetector(
-                            onTap: () => _launchURL(_toll_free),
+                            onTap: () => _launchURL(tollFree),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
