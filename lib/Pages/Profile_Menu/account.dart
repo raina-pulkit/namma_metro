@@ -3,10 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/my_cards.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../AuthPages/login_signup.dart';
 import '../color.dart';
+import 'address.dart';
 import 'edit_profile.dart';
 
 final _fs = FirebaseFirestore.instance;
@@ -164,12 +166,9 @@ class _AccountState extends State<Account> {
     );
   }
 
-  late Future<Map<String, dynamic>> mpp;
-
   @override
   void initState(){
     super.initState();
-    mpp = getUserData();
   }
 
   Future<Map<String, dynamic>> getUserData() async{
@@ -214,17 +213,23 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primary,
+      backgroundColor: secondary,
       appBar: CustomTopAppBar(
         text: "Account Details",
         show: true,
         context: context,
       ),
       body: FutureBuilder<Map<String, dynamic>>(
-        future: mpp,
+        future: getUserData(),
         builder: (context, snapShot) {
           if(snapShot.connectionState == ConnectionState.waiting){
-            return const CircularProgressIndicator();
+            return const Center(
+              child: SizedBox(
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(),
+              ),
+            );
           }
           else if(snapShot.hasError){
             return Center(
@@ -290,13 +295,12 @@ class _AccountState extends State<Account> {
                     ),
                     const SizedBox(height: 20,),
                     ElevatedButton(
-                      onPressed: (){
-                        PersistentNavBarNavigator.pushNewScreen(
+                      onPressed: () async {
+                        await PersistentNavBarNavigator.pushNewScreen(
                           context,
                           screen: EditProfile(mpp: data),
-                        );
-                        setState(() {
-
+                        ).then((res) async{
+                          setState(() {});
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -329,12 +333,18 @@ class _AccountState extends State<Account> {
                     _ListBuilder(
                         data: "Address",
                         leadIcon: Icons.map,
-                        onTap: (){}
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Address(add: data["address"], )),
+                        ),
                     ).buildListTile(),
                     _ListBuilder(
                         data: "Metro Cards",
                         leadIcon: Icons.credit_card,
-                        onTap: (){}
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const MyCards()),
+                        ),
                     ).buildListTile(),
                     _ListBuilder(
                       data: "Log Out",

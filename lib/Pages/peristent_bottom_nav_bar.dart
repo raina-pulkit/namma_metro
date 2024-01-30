@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:namma_metro/Pages/Profile_Menu/profile_menu.dart';
 import 'package:namma_metro/Pages/Search/search_list.dart';
 import 'package:namma_metro/Pages/Home/home.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/plan_your_journey.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'Contact_Us/contact_us.dart';
-import 'Ticket_Booking/intermediate_page.dart';
 
 LinearGradient lgBtm() {
   return const LinearGradient(
@@ -31,7 +31,6 @@ class PersistentNavBar extends StatefulWidget {
 }
 
 class _PersistentNavBarState extends State<PersistentNavBar> {
-  // final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +52,7 @@ class _PersistentNavBarState extends State<PersistentNavBar> {
       Builder(
         builder: (context) {
           // return const PlanYourJourney(title: "Plan your journey", show: false,);
-          return const IntermediatePage(
-            source: "station 1",
-            destination: "station 2",
-            change: true,
-            fare: 25,
-          );
+          return const PlanYourJourney(show: false, title: "Plan your journey");
         }
       ),
       Builder(

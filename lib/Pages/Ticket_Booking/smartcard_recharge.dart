@@ -12,12 +12,41 @@ class SmartCardRecharge extends StatefulWidget {
 
 class _SmartCardRechargeState extends State<SmartCardRecharge> {
   TextEditingController cardNumberController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
   TextEditingController amountController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: SizedBox(
+          height: 60,
+          child: Text(
+            message,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  void rechargeStart() async{
+    String card = cardNumberController.text.trim();
+    int amt = int.parse(amountController.text.trim());
+    if((amt < 50) || (amt >= 5000) || (amt%50 != 0)){
+      _showSnackBar("Please make sure amount is a multiple of Rs. 50 and between Rs. 50 and Rs. 5000");
+      return;
+    }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomTopAppBar(
         text: "Smartcard Recharge",
         show: true,
@@ -48,13 +77,8 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
               ),
-              buildEditableBox(
-                label: 'Your Name',
-                controller: nameController,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
-                ],
-              ),
+              const SizedBox(height: 10,),
+
               buildEditableBox(
                 label: 'Amount to be added',
                 controller: amountController,
@@ -62,6 +86,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
               ),
+              const SizedBox(height: 10,),
               Row(
                 children: [
                   buildSmallBox('50', amountController),
@@ -70,7 +95,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
                   buildSmallBox('500', amountController),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 30),
               buildRechargeButton(),
             ],
           ),
@@ -141,6 +166,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
         margin: const EdgeInsets.only(right: 8.0),
         decoration: BoxDecoration(
           color: const Color(0xFFE0DEDE),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -151,7 +177,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
           ],
         ),
         child: Center(
-          child: Text(text),
+          child: Text("Rs. $text"),
         ),
       ),
     );
@@ -161,9 +187,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          // Add your recharge logic here
-        },
+        onPressed: rechargeStart,
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6F60CC),
           shape: RoundedRectangleBorder(

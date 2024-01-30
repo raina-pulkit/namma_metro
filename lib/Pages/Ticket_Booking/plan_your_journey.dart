@@ -300,7 +300,7 @@ class _PlanYourJourneyState extends State<PlanYourJourney> {
   Widget buildShowRouteButton() {
     return ElevatedButton(
       onPressed: () {
-        // Implement your logic when the button is pressed
+        Navigator.of(context).pop();
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF6F60CC), // 6F60CC

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,66 +13,10 @@ class MyCards extends StatefulWidget {
 }
 
 class _MyCardsState extends State<MyCards> {
-  late final Future<Map<String, String>>? cardNumbers;
   final _fs = FirebaseFirestore.instance;
   final _fa = FirebaseAuth.instance;
   late final String uid;
-  
-  Future<Map<String, String>>? getCardNums() async{
-    await _fs.collection("metro_cards").where("user_id", isEqualTo: uid).get()
-        .then((qs) {
-          return qs.docs
-              .map((doc) => doc.data())
-              .toList();
-        });
-    return {};
-  }
-
-  Widget buildExistingCards(Map<String, String> mpp){
-    if(mpp.isEmpty){
-      return SizedBox(
-        height: 200,
-        width: double.infinity,
-        child: Center(
-          child: Text(
-            "No cards yet",
-            style: GoogleFonts.rajdhani(
-              fontSize: 70,
-              fontWeight: FontWeight.bold,
-              shadows: [
-                const Shadow(
-                  color: Colors.black,
-                  offset: Offset(2.0, 2.0),
-                  blurRadius: 4.0,
-                ),
-              ]
-            ),
-          ),
-        ),
-      );
-    }
-    else{
-      return ListView.builder(
-          itemCount: mpp.length,
-          itemBuilder: (context, index){
-            String key = mpp.keys.elementAt(index);
-            String? val = mpp[key];
-
-            return Card(
-              child: ListTile(
-                title: Text(
-                  val!,
-                  style: GoogleFonts.rajdhani(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600
-                  ),
-                ),
-              ),
-            );
-          }
-      );
-    }
-  }
+  final TextEditingController txtCtrl = TextEditingController();
 
   Widget buildAddNewCardButton(){
     return ElevatedButton(
@@ -79,7 +24,57 @@ class _MyCardsState extends State<MyCards> {
         showDialog(
             context: context,
             builder: (context) {
-              return const Placeholder();
+              return AlertDialog(
+                title: Text(
+                  "Enter your card number!",
+                  style: GoogleFonts.rajdhani(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600
+                  ),
+                ),
+                content: SizedBox(
+                  height: 120,
+                  child: Center(
+                    child: TextField(
+                      controller: txtCtrl,
+                      decoration: const InputDecoration(labelText: "Your metro card number"),
+                    ),
+                  ),
+                ),
+                actions: [
+                  ElevatedButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: GoogleFonts.rajdhani(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () async{
+                        String newCard = txtCtrl.text.trim();
+                        await _fs.collection("metro_cards").doc().set({
+                          "user_id": uid,
+                          "metro_card_number": newCard
+                        }).then((res){
+                          Navigator.pop(context);
+                          setState((){});
+                        });
+                      },
+                    child: Text(
+                      "Submit",
+                      style: GoogleFonts.rajdhani(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  )
+                ],
+              );
             }
         );
       },
@@ -102,11 +97,58 @@ class _MyCardsState extends State<MyCards> {
       ),
     );
   }
+
+  Widget lineMaker(String stn){
+    return Card(
+      color: const Color(0xFFA89D9D),
+      elevation: 3,
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20)
+        ),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(16),
+        title: Text(
+          stn,
+          style: GoogleFonts.rajdhani(
+              fontSize: 25,
+              fontWeight: FontWeight.w700,
+              color: Colors.black
+          ),
+        ),
+        leading: Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              color: Colors.black54
+          ),
+          child: const Icon(Icons.credit_card, color: Colors.white, size: 20,),
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.white, size: 20),
+          onPressed: () async{
+            await _fs.collection("metro_cards").where("user_id", isEqualTo: uid).where("metro_card_number", isEqualTo: stn).get()
+              .then((res) {
+                if(res.docs.isNotEmpty){
+                  res.docs.first.reference.delete()
+                  .then((task)  {
+                    setState(() {});
+                  }).catchError((e) {log(e.toString());});
+                }
+              });
+          },
+        ),
+      ),
+    );
+  }
   
   @override
   void initState(){
     uid = _fa.currentUser!.uid;
-    cardNumbers = getCardNums();
     super.initState();
   }
   
@@ -118,30 +160,40 @@ class _MyCardsState extends State<MyCards> {
         show: true,
         context: context,
       ),
-      body: Column(
-        children: [
-          FutureBuilder<Map<String, String>>(
-            future: cardNumbers,
-            builder: (context, snap) {
-              if(snap.connectionState == ConnectionState.waiting){
-                return const SizedBox(
-                  height: 40,
-                  width: 40,
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-              else if(snap.hasError){
-                return Center(child: Text("Error Occured!", style: GoogleFonts.rajdhani(fontSize: 40, fontWeight: FontWeight.bold),),);
-              }
-              else{
-                var fetchedData = snap.data!;
-                return buildExistingCards(fetchedData);
-              }
-            },
-          ),
-          const SizedBox(height: 40,),
-          buildAddNewCardButton(),
-        ],
+      body: Container(
+        padding: const EdgeInsets.only(top: 40),
+        child: Column(
+          children: [
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('metro_cards').where("user_id", isEqualTo: uid).snapshots(),
+
+              builder: (context, snapshot) {
+                if(snapshot.hasData){
+                  final clients = snapshot.data!.docs.reversed.toList();
+                  return ListView.builder(
+                    itemCount: clients.length,
+                    shrinkWrap: true, // Add this line
+                    itemBuilder: (context, index) {
+                      final clientWidget = lineMaker(clients[index]['metro_card_number']);
+                      return clientWidget;
+                    },
+                  );
+                }
+                else{
+                  return const SizedBox(
+                    height: 60,
+                    width: 60,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              },
+            ),
+            const SizedBox(height: 40,),
+            buildAddNewCardButton(),
+          ],
+        ),
       ),
     );
   }

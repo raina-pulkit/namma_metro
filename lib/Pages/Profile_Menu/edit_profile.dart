@@ -129,6 +129,7 @@ class _EditProfileState extends State<EditProfile> {
                       await FirebaseFirestore.instance.collection("user_details").doc(uid).update(newData1)
                       .then((res) {
                         Navigator.of(context).pop(true);
+                        setState(() {});
                       });
                     }
                     catch (e) {
