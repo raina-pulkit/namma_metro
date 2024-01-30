@@ -11,7 +11,6 @@ import 'package:namma_metro/Pages/top_app_bar.dart';
 import '../Metro_Lines/metro_lines.dart';
 import 'other_info.dart';
 import 'tour_guide.dart';
-import '../Ticket_Booking/book_qr_ticket.dart';
 import 'evacuation_guidelines.dart';
 import '../Ticket_Booking/fare_calculator.dart';
 import 'lost_found.dart';
@@ -78,28 +77,30 @@ class _HomePageState extends State<HomePage> {
           else{
             String userName = snapShot.data ?? "again";
 
-            return Scaffold(
-              backgroundColor: Colors.white,
-              appBar: CustomTopAppBar(
-                text: "Welcome,\n$userName!",
-                show: false,
-                context: context,
-              ),
-              body: SingleChildScrollView(
-                // padding: EdgeInsets.symmetric(ver),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20,),
-                    _buildIconBox1(boxWidth, boxHeight),
-                    SizedBox(height: spacingBetweenBoxes),
-                    _buildIconBox2(boxWidth, boxHeight),
-                    SizedBox(height: spacingBetweenBoxes),
-                    _buildIconBox3(boxWidth, boxHeight),
-                    SizedBox(height: spacingBetweenBoxes),
-                    _buildIconBox4(boxWidth, boxHeight),
-                    // Add other widgets below the icon boxes if needed
-                  ],
+            return MaterialApp(
+              home: Scaffold(
+                backgroundColor: Colors.white,
+                appBar: CustomTopAppBar(
+                  text: "Welcome,\n$userName!",
+                  show: false,
+                  context: context,
+                ),
+                body: SingleChildScrollView(
+                  // padding: EdgeInsets.symmetric(ver),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20,),
+                      _buildIconBox1(boxWidth, boxHeight),
+                      SizedBox(height: spacingBetweenBoxes),
+                      _buildIconBox2(boxWidth, boxHeight),
+                      SizedBox(height: spacingBetweenBoxes),
+                      _buildIconBox3(boxWidth, boxHeight),
+                      SizedBox(height: spacingBetweenBoxes),
+                      _buildIconBox4(boxWidth, boxHeight),
+                      // Add other widgets below the icon boxes if needed
+                    ],
+                  ),
                 ),
               ),
             );
@@ -119,7 +120,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PlanYourJourney(show: true,)
+              builder: (context) => const PlanYourJourney(title: "Plan your Journey", show: true,)
             )
           );
         }),
@@ -127,7 +128,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BookQRTicket()
+              builder: (context) => const PlanYourJourney(title: "Book QR Ticket", show: true)
             )
           );
         }),

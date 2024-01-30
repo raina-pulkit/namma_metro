@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/payment.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 
 class PlanYourJourney extends StatefulWidget {
   final bool show;
-  const PlanYourJourney({super.key, required this.show});
+  final String title;
+  const PlanYourJourney({super.key, required this.show, required this.title});
 
   @override
   State<PlanYourJourney> createState() => _PlanYourJourneyState();
 }
 
 class _PlanYourJourneyState extends State<PlanYourJourney> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Selected values for the dropdowns
   late String selectedDeparture;
@@ -296,10 +299,66 @@ class _PlanYourJourneyState extends State<PlanYourJourney> {
     );
   }
 
+  void _showSnackBar(String message, Color col) {
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        backgroundColor: col,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  double calcFare(String stn1, String stn2) {
+    double base = 11;
+    double std = 4;
+    int first = departureOptions.indexOf(stn1);
+    int second = departureOptions.indexOf(stn2);
+    int r1 = first ~/ 38;
+    int r2 = second ~/ 38;
+    first = first % 39;
+    second = second % 39;
+
+    if(((r1 == 0) && (first == 0)) || ((r2 == 0) && (second == 0))){
+      _showSnackBar("Please choose both stations!", Colors.red);
+      return -1;
+    }
+    else if(r1 == r2){
+      double amt = ((first-second).abs()) * std;
+      amt = (amt > base)?amt: base;
+      return amt;
+    }
+    else{
+      double amt = 0;
+      amt += ((first-23).abs()*std);
+      amt += ((second - 12).abs()*std);
+
+      return amt;
+    }
+  }
+
   Widget buildShowRouteButton() {
     return ElevatedButton(
       onPressed: () {
-        // Implement your logic when the button is pressed
+        double amt = calcFare(selectedDeparture, selectedDestination);
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PaymentInit(
+                amount: amt,
+                source: "QR",
+                metro_card: "`",
+                passedVals: {
+                  "source_station": selectedDeparture,
+                  "destinatin_station": selectedDestination,
+                },
+              ),
+            ),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF6F60CC), // 6F60CC
@@ -345,7 +404,7 @@ class _PlanYourJourneyState extends State<PlanYourJourney> {
 
     return Scaffold(
       appBar: CustomTopAppBar(
-        text: "Plan your journey",
+        text: widget.title,
         show: widget.show,
         context: context,
       ),

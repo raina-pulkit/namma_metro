@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:namma_metro/Pages/Ticket_Booking/payment.dart';
 import 'package:namma_metro/Pages/top_app_bar.dart';
 
 class SmartCardRecharge extends StatefulWidget {
@@ -12,12 +14,79 @@ class SmartCardRecharge extends StatefulWidget {
 
 class _SmartCardRechargeState extends State<SmartCardRecharge> {
   TextEditingController cardNumberController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
   TextEditingController amountController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  get _fs => FirebaseFirestore.instance;
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: SizedBox(
+          height: 60,
+          child: Text(
+            message,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  Future<bool> doesValueExist(String table, String col, String val) async{
+    try{
+      QuerySnapshot<Map<String, dynamic>> qs = await _fs.collection(table)
+      .where(col, isEqualTo: val)
+      .limit(1)
+      .get();
+
+      return qs.docs.isNotEmpty;
+    }
+    catch(e){
+      print("Error occured!\n");
+      return false;
+    }
+  }
+
+  void rechargeStart() async{
+    String card = cardNumberController.text.trim();
+    double amt = double.parse(amountController.text.trim());
+    if((amt < 50) || (amt >= 5000) || (amt%50 != 0)){
+      _showSnackBar("Please make sure amount is a multiple of Rs. 50 and between Rs. 50 and Rs. 5000");
+      return;
+    }
+    await doesValueExist("metro_cards", "metro_card_number", card)
+    .then((exists){
+      if(!exists){
+        _showSnackBar("Card does not exist!");
+        return;
+      }
+      else{
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PaymentInit(
+                                                      amount: amt,
+                                                      source: 'SmartCard',
+                                                      metro_card: card,
+                                                      passedVals: const {
+                                                        "source_station": "station 1",
+                                                        "destination_station": "station 2"
+                                                      },
+                                                    )
+          ),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomTopAppBar(
         text: "Smartcard Recharge",
         show: true,
@@ -48,13 +117,8 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
               ),
-              buildEditableBox(
-                label: 'Your Name',
-                controller: nameController,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
-                ],
-              ),
+              const SizedBox(height: 10,),
+
               buildEditableBox(
                 label: 'Amount to be added',
                 controller: amountController,
@@ -62,6 +126,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
               ),
+              const SizedBox(height: 10,),
               Row(
                 children: [
                   buildSmallBox('50', amountController),
@@ -70,7 +135,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
                   buildSmallBox('500', amountController),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 30),
               buildRechargeButton(),
             ],
           ),
@@ -141,6 +206,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
         margin: const EdgeInsets.only(right: 8.0),
         decoration: BoxDecoration(
           color: const Color(0xFFE0DEDE),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -151,7 +217,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
           ],
         ),
         child: Center(
-          child: Text(text),
+          child: Text("Rs. $text"),
         ),
       ),
     );
@@ -161,9 +227,7 @@ class _SmartCardRechargeState extends State<SmartCardRecharge> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          // Add your recharge logic here
-        },
+        onPressed: rechargeStart,
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6F60CC),
           shape: RoundedRectangleBorder(

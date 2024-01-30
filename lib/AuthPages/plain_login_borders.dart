@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:namma_metro/Pages/color.dart';
-
-LinearGradient lgTop() {
-  return const LinearGradient(
-    colors: <Color>[
-      Color(0xff1f005c),
-      Color(0xff972f9b),
-      Color(0xff941e70),
-      Color(0xffac255e),
-      Color(0xffca485c),
-      Color(0xffe16b5c),
-      Color(0xfff39060),
-      Color(0xffffb56b),
-    ],
-  );
-}
+import 'package:namma_metro/Pages/peristent_bottom_nav_bar.dart';
 
 class LoginBorder extends StatelessWidget{
   final Container cont;
@@ -23,8 +8,8 @@ class LoginBorder extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Container(
-      decoration: BoxDecoration(
-        color: secondary
+      decoration: const BoxDecoration(
+        color: Colors.white,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -32,11 +17,7 @@ class LoginBorder extends StatelessWidget{
           Container(
             height: 100,
             decoration: BoxDecoration(
-              gradient: lgTop(),
-              borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(0),
-                  bottom: Radius.circular(20)
-              ),
+              gradient: lgBtm(),
             ),
           ),
           const Spacer(),
@@ -50,11 +31,7 @@ class LoginBorder extends StatelessWidget{
           Container(
             height: 80,
             decoration: BoxDecoration(
-              gradient: lgTop(),
-              borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(20),
-                  bottom: Radius.circular(0)
-              ),
+              gradient: lgBtm(),
             ),
           ),
         ],
