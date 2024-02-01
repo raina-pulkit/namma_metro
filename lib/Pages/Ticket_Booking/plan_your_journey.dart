@@ -354,7 +354,7 @@ class _PlanYourJourneyState extends State<PlanYourJourney> {
                 metroCard: "`",
                 passedVals: {
                   "source_station": selectedDeparture,
-                  "destinatin_station": selectedDestination,
+                  "destination_station": selectedDestination,
                 },
               ),
             ),
