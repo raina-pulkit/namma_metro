@@ -4,7 +4,7 @@ import 'package:namma_metro/Pages/top_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-final Uri _phone_number = Uri(
+final Uri phoneNumber = Uri(
   scheme: 'tel',
   path: '1800-425-12345',
 );
@@ -172,7 +172,7 @@ class OtherInfo extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           GestureDetector(
-            onTap: () => _launchURL(_phone_number),
+            onTap: () => _launchURL(phoneNumber),
             child: Text(
               text,
               textAlign: TextAlign.center,

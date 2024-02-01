@@ -271,7 +271,7 @@ class _EditProfileState extends State<EditProfile> {
     try{
       await refImgToUpload.putFile(File(img!.path));
       imgURL = await refImgToUpload.getDownloadURL();
-      await FirebaseFirestore.instance.collection("user_details").doc(FirebaseAuth.instance.currentUser!.uid).set({
+      await FirebaseFirestore.instance.collection("user_details").doc(FirebaseAuth.instance.currentUser!.uid).update({
         "profile_pic": imgURL,
       }).then((res) {
         Navigator.pop(context);

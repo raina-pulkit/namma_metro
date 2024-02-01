@@ -20,29 +20,6 @@ class _MyTicketsState extends State<MyTickets> {
     uid = FirebaseAuth.instance.currentUser!.uid;
     super.initState();
   }
-  Future<List<List<Map<String, dynamic>>>>? getTrans() async{
-    List<Map<String, dynamic>> mpp1;
-    List<Map<String, dynamic>> mpp2;
-    List<List<Map<String, dynamic>>> comb = [];
-
-    await _fs.collection("transaction_history").where("user_id", isEqualTo: uid).get()
-        .then((qs) {
-      mpp1 = qs.docs
-          .map((doc) => doc.data())
-          .toList();
-      comb.add(mpp1);
-    });
-
-    await _fs.collection("tickets").where("user_id", isEqualTo: uid).get()
-        .then((qs) {
-      mpp2 = qs.docs
-          .map((doc) => doc.data())
-          .toList();
-      comb.add(mpp2);
-    });
-
-    return comb;
-  }
 
   Widget lineMaker(double amt, String source, String dest, Timestamp dt){
     return Card(
@@ -118,27 +95,43 @@ class _MyTicketsState extends State<MyTickets> {
       body: Container(
         padding: const EdgeInsets.only(top: 40),
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('tickets').where("user_id", isEqualTo: uid).snapshots(),
+          stream: _fs.collection('tickets').where("user_id", isEqualTo: uid).snapshots(),
 
           builder: (context, snapshot) {
-            if(snapshot.hasData){
+            if(snapshot.hasData && (snapshot.data != null) && (snapshot.data?.size != 0)){
               final clients = snapshot.data!.docs.reversed.toList();
               return ListView.builder(
                 itemCount: clients.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final t = clients[index];
+                  // log(t["trans_amount"] + t["source_station"] + t["destination_station"] + t["date_and_time"]);
                   final clientWidget = lineMaker(t["trans_amount"], t["source_station"], t["destination_station"], t["date_and_time"]);
                   return clientWidget;
                 },
               );
             }
-            else{
+            else if(snapshot.connectionState == ConnectionState.waiting){
               return const SizedBox(
                 height: 60,
                 width: 60,
                 child: Center(
                   child: CircularProgressIndicator(),
+                ),
+              );
+            }
+            else{
+              return Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "NO TICKETS BOOKED YET",
+                    style: GoogleFonts.rajdhani(
+                      fontSize: 60,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               );
             }

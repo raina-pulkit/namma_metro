@@ -10,13 +10,13 @@ import 'package:upi_india/upi_india.dart';
 
 class PaymentInit extends StatefulWidget {
   final double amount;
-  final String metro_card, source;
+  final String metroCard, source;
   final Map<String, dynamic> passedVals;
 
   const PaymentInit({
     super.key,
     required this.amount,
-    required this.metro_card,
+    required this.metroCard,
     required this.passedVals,
     required this.source
   });
@@ -83,7 +83,7 @@ class _PaymentInitState extends State<PaymentInit> {
                             "trans_id": transId,
                             "approval_ref_number": approvalRefNumber,
                             "trans_ref_id": transRefId,
-                            "metro_card_number": widget.metro_card
+                            "metro_card_number": widget.metroCard
                           };
                           data.addAll(extend.cast<String, Object>());
                           await FirebaseFirestore.instance.collection("transaction_history").doc().set(data)

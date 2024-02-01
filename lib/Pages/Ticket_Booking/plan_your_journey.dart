@@ -351,10 +351,10 @@ class _PlanYourJourneyState extends State<PlanYourJourney> {
             MaterialPageRoute(builder: (context) => PaymentInit(
                 amount: amt,
                 source: "QR",
-                metro_card: "`",
+                metroCard: "`",
                 passedVals: {
                   "source_station": selectedDeparture,
-                  "destinatin_station": selectedDestination,
+                  "destination_station": selectedDestination,
                 },
               ),
             ),

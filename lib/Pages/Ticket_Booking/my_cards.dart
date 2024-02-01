@@ -151,7 +151,7 @@ class _MyCardsState extends State<MyCards> {
                   res.docs.first.reference.delete()
                   .then((task)  {
                     setState(() {});
-                  }).catchError((e) {;});
+                  }).catchError((e) {});
                 }
               });
           },
@@ -198,7 +198,7 @@ class _MyCardsState extends State<MyCards> {
         child: Column(
           children: [
             StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('metro_cards').where("user_id", isEqualTo: uid).snapshots(),
+              stream: _fs.collection('metro_cards').where("user_id", isEqualTo: uid).snapshots(),
 
               builder: (context, snapshot) {
                 if(snapshot.hasData && (snapshot.data != null) && (snapshot.data?.size != 0)){
